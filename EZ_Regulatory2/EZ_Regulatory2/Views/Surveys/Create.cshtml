@@ -1,0 +1,76 @@
+﻿@model EZ_Regulatory2.Models.Survey
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Survey</legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Title)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Title)
+            @Html.ValidationMessageFor(model => model.Title)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.DateModified)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.DateModified)
+            @Html.ValidationMessageFor(model => model.DateModified)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Submitted)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Submitted)
+            @Html.ValidationMessageFor(model => model.Submitted)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Approved)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Approved)
+            @Html.ValidationMessageFor(model => model.Approved)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Month)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Month)
+            @Html.ValidationMessageFor(model => model.Month)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.DateAdded)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.DateAdded)
+            @Html.ValidationMessageFor(model => model.DateAdded)
+        </div>
+
+        <p>
+            <input type="submit" value="Create" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
