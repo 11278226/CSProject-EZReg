@@ -1,0 +1,51 @@
+﻿@model IEnumerable<EZ_Regulatory3.Models.Question>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table>
+    <tr>
+        <th>
+            Title
+        </th>
+        <th>
+            DateModified
+        </th>
+        <th>
+            Type
+        </th>
+        <th>
+            CompliantAnswer
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Title)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DateModified)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Type)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CompliantAnswer)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.QuestionID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.QuestionID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.QuestionID })
+        </td>
+    </tr>
+}
+
+</table>

@@ -6,13 +6,15 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using EZ_Regulatory2.Models;
+using EZ_Regulatory2.DAL;
+using System.Data.Entity.Infrastructure;
 
 namespace EZ_Regulatory2.Controllers
 {
     public class HomeController : Controller
     {
 
-        private MyModelDBContext db = new MyModelDBContext();
+        private SurveyContext db = new SurveyContext();
 
         public ActionResult Index()
         {

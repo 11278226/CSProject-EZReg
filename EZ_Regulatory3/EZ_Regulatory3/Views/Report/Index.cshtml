@@ -1,0 +1,48 @@
+﻿@model IEnumerable<EZ_Regulatory3.Models.Survey>
+
+@{
+    ViewBag.Title = "Reporting";
+}
+
+<h3>
+    Monthly Reports
+</h3>
+<table>
+    <tr>
+        <th>
+            Survey
+        </th>
+        <th>
+            Date Modified
+        </th>
+        <th>
+            Submitted
+        </th>
+        <th>
+            Approved
+        </th>
+        <th>
+            Date Added
+        </th>
+    </tr>
+
+@foreach (var item in Model) { 
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Title)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DateModified)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Submitted)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Approved)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DateAdded)
+        </td>
+    </tr>
+}
+</table>
