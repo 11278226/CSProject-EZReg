@@ -9,6 +9,7 @@ namespace EZ_Regulatory3.ViewModels
     {
         public int QuestionID { get; set; }
         public string Title { get; set; }
+        public string Answer { get; set; }
         public bool Assigned { get; set; }
     }
 }

@@ -86,6 +86,27 @@ namespace EZ_Regulatory3.Controllers
             ViewBag.Questions = viewModel;
         }
 
+        private void PopulateActiveAssignedQuestionData(Survey survey)
+        {
+            var allQuestions = db.Questions;
+            var surveyQuestions = new HashSet<int>(survey.Questions.Select(c => c.QuestionID));
+            var viewModel = new List<AssignedQuestionData>();
+            foreach (var question in allQuestions)
+            {
+                if (surveyQuestions.Contains(question.QuestionID))
+                {
+                    viewModel.Add(new AssignedQuestionData
+                    {
+                        QuestionID = question.QuestionID,
+                        Title = question.Title,
+                        Assigned = surveyQuestions.Contains(question.QuestionID),
+                        Answer = question.Answer
+                    });
+                }
+            }
+            ViewBag.Questions = viewModel;
+        }
+
         //
         // POST: /Instructor/Edit/5
 
@@ -177,6 +198,16 @@ namespace EZ_Regulatory3.Controllers
         {
             db.Dispose();
             base.Dispose(disposing);
+        }
+
+        public ViewResult View(int id, string[] selectedQuestions)
+        {
+            Survey survey = db.Surveys
+                .Include(i => i.Questions)
+                .Where(i => i.ID == id)
+                .Single();
+            PopulateActiveAssignedQuestionData(survey);
+            return View(survey);
         }
     }
 }

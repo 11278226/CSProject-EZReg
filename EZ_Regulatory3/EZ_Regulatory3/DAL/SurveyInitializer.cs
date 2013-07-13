@@ -13,8 +13,14 @@ namespace EZ_Regulatory3.DAL
         {
             var questions = new List<Question>
             {
+                new Question { Title = "This is a question",     Type = "Yes/No", DateModified = DateTime.Parse("1995-03-11"), CompliantAnswer = "No", Answer = "No"},
+                new Question { Title = "This is another question",   Type = "Yes/No", DateModified = DateTime.Parse("2004-02-12"), CompliantAnswer = "Yes", Answer = "No"},
+                new Question { Title = "This is a question",     Type = "Yes/No", DateModified = DateTime.Parse("1995-03-11"), CompliantAnswer = "No", Answer = "Yes"},
                 new Question { Title = "This is a question",     Type = "Yes/No", DateModified = DateTime.Parse("1995-03-11"), CompliantAnswer = "No"},
-                new Question { Title = "This is another question",   Type = "Yes/No", DateModified = DateTime.Parse("2004-02-12"), CompliantAnswer = "Yes" }
+                new Question { Title = "This is a question",     Type = "Yes/No", DateModified = DateTime.Parse("1995-03-11"), CompliantAnswer = "No"},
+                new Question { Title = "This is a question",     Type = "Yes/No", DateModified = DateTime.Parse("1995-03-11"), CompliantAnswer = "No"},
+                new Question { Title = "This is a question",     Type = "Yes/No", DateModified = DateTime.Parse("1995-03-11"), CompliantAnswer = "No", Answer = "No"},
+                new Question { Title = "This is a question",     Type = "Yes/No", DateModified = DateTime.Parse("1995-03-11"), CompliantAnswer = "No", Answer = "No"}
             };
             questions.ForEach(s => context.Questions.Add(s));
             context.SaveChanges();

@@ -61,33 +61,7 @@
             @Html.EditorFor(model => model.DateAdded)
             @Html.ValidationMessageFor(model => model.DateAdded)
         </div>
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Questions)
-        </div>
-        <div class="editor-field">
-            <table style="width: 100%">
-                <tr>
-                    @{
-                        int cnt = 0;
-                        List<EZ_Regulatory3.ViewModels.AssignedQuestionData> questions = ViewBag.Questions;
-
-                        foreach (var question in questions)
-                        {
-                            if (cnt++ % 3 == 0) {
-                                @:  </tr> <tr> 
-                            }
-                            @: <td> 
-                                <input type="checkbox" 
-                                       name="selectedQuestions" 
-                                       value="@question.QuestionID" 
-                                       @(Html.Raw(question.Assigned ? "checked=\"checked\"" : "")) /> 
-                                @question.QuestionID @:&nbsp; @question.Title
-                            @:</td>
-                        }
-                        @: </tr>
-                    }
-            </table>
-        </div>
+        
         <p>
             <input type="submit" value="Create" />
         </p>
