@@ -15,13 +15,16 @@
             Title
         </th>
         <th>
-            DateModified
+            Answer
+        </th>
+        <th>
+            Date Modified
         </th>
         <th>
             Type
         </th>
         <th>
-            CompliantAnswer
+            Compliant Answer
         </th>
         <th></th>
     </tr>
@@ -30,6 +33,9 @@
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.Title)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Answer)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.DateModified)

@@ -14,9 +14,15 @@ namespace EZ_Regulatory3.Models
         [Required]
         public string Title { get; set; }
 
+        public string Manager { get; set; }
+
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:d}")]
-        public DateTime DateModified { get; set; }
+        public DateTime DateStart { get; set; }
+
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:d}")]
+        public DateTime DateEnd { get; set; }
 
         [Required]
         public string Submitted { get; set; }
