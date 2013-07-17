@@ -18,16 +18,40 @@ namespace EZ_Regulatory3.Controllers
 
         public ViewResult Index()
         {
+            // This Month
             ViewBag.Message = "Check the status of the Monthly Checklists here.";
+            DateTime dt = DateTime.Now;
+            var x = dt.ToString("MMMM");
+            ViewBag.Message = x;
             List<Survey> surveys = db.Surveys.ToList();
             List<Survey> filteredList = new List<Survey>();
             foreach (Survey s in surveys)
             {
-                if (s.Month.ToUpper() == "JULY")
+                if (s.Month.ToUpper() == dt.ToString("MMMM").ToUpper())
                 {
                     filteredList.Add(s);
                 }
-                else if (s.Approved.ToUpper() == "NO")
+                
+            }
+            return View(filteredList);
+        }
+
+        public ViewResult ViewAll()
+        {
+            ViewBag.Message = "View All Surveys";
+            List<Survey> surveys = db.Surveys.ToList();
+            
+            return View(surveys);
+        }
+
+        public ViewResult ViewUnapproved()
+        {
+            ViewBag.Message = "View Unapproved Surveys";
+            List<Survey> surveys = db.Surveys.ToList();
+            List<Survey> filteredList = new List<Survey>();
+            foreach (Survey s in surveys)
+            {
+                if (s.Approved.ToUpper() == "NO")
                 {
                     filteredList.Add(s);
                 }

@@ -11,8 +11,6 @@ namespace EZ_Regulatory3.Models
     {
         public int QuestionID { get; set; }
 
-        public string Answer { get; set; }
-
         [Required]
         public string Title { get; set; }
 

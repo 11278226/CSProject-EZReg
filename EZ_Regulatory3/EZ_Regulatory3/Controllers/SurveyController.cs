@@ -99,8 +99,7 @@ namespace EZ_Regulatory3.Controllers
                     {
                         QuestionID = question.QuestionID,
                         Title = question.Title,
-                        Assigned = surveyQuestions.Contains(question.QuestionID),
-                        Answer = question.Answer
+                        Assigned = surveyQuestions.Contains(question.QuestionID)
                     });
                 }
             }

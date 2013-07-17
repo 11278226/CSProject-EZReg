@@ -13,14 +13,14 @@ namespace EZ_Regulatory3.DAL
         {
             var questions = new List<Question>
             {
-                new Question { Title = "This is a question",     Type = "Yes/No", DateModified = DateTime.Parse("1995-03-11"), CompliantAnswer = "No", Answer = "No"},
-                new Question { Title = "This is another question",   Type = "Yes/No", DateModified = DateTime.Parse("2004-02-12"), CompliantAnswer = "Yes", Answer = "No"},
-                new Question { Title = "This is a question",     Type = "Yes/No", DateModified = DateTime.Parse("1995-03-11"), CompliantAnswer = "No", Answer = "Yes"},
-                new Question { Title = "This is a question",     Type = "Yes/No", DateModified = DateTime.Parse("1995-03-11"), CompliantAnswer = "No"},
-                new Question { Title = "This is a question",     Type = "Yes/No", DateModified = DateTime.Parse("1995-03-11"), CompliantAnswer = "No"},
-                new Question { Title = "This is a question",     Type = "Yes/No", DateModified = DateTime.Parse("1995-03-11"), CompliantAnswer = "No"},
-                new Question { Title = "This is a question",     Type = "Yes/No", DateModified = DateTime.Parse("1995-03-11"), CompliantAnswer = "No", Answer = "No"},
-                new Question { Title = "This is a question",     Type = "Yes/No", DateModified = DateTime.Parse("1995-03-11"), CompliantAnswer = "No", Answer = "No"}
+                new Question { Title = "This is a question 1",     Type = "Yes/No", DateModified = DateTime.Parse("1995-03-11"), CompliantAnswer = "No"},
+                new Question { Title = "This is another question",   Type = "Yes/No", DateModified = DateTime.Parse("2004-02-12"), CompliantAnswer = "Yes"},
+                new Question { Title = "This is a question 2",     Type = "Yes/No", DateModified = DateTime.Parse("1995-03-11"), CompliantAnswer = "No"},
+                new Question { Title = "This is a question 3",     Type = "Yes/No", DateModified = DateTime.Parse("1995-03-11"), CompliantAnswer = "No"},
+                new Question { Title = "This is a question 4",     Type = "Yes/No", DateModified = DateTime.Parse("1995-03-11"), CompliantAnswer = "No"},
+                new Question { Title = "This is a question 5",     Type = "Yes/No", DateModified = DateTime.Parse("1995-03-11"), CompliantAnswer = "No"},
+                new Question { Title = "This is a question 6",     Type = "Yes/No", DateModified = DateTime.Parse("1995-03-11"), CompliantAnswer = "No"},
+                new Question { Title = "This is a question 7",     Type = "Yes/No", DateModified = DateTime.Parse("1995-03-11"), CompliantAnswer = "No"}
             };
             questions.ForEach(s => context.Questions.Add(s));
             context.SaveChanges();
@@ -28,8 +28,8 @@ namespace EZ_Regulatory3.DAL
 
             var surveys = new List<Survey>
             {
-                new Survey { Approved = "No", Manager = "Hugh O'Connor", Title = "This is a survey",  DateAdded = DateTime.Parse("1995-03-11"), DateStart = DateTime.Parse("1995-03-11"), DateEnd = DateTime.Parse("1995-03-11"), Month = "June", Submitted = "NO", Questions = new List<Question>() },
-                new Survey { Approved = "No", Manager = "Olivia Wilde", Title = "This is a survey",  DateAdded = DateTime.Parse("1995-03-11"), DateStart = DateTime.Parse("1995-03-11"), DateEnd = DateTime.Parse("1995-03-11"), Month = "June", Submitted = "NO", Questions = new List<Question>() }
+                new Survey { Approved = "No", Title = "This is a survey",  DateAdded = DateTime.Parse("1995-03-11"), DateStart = DateTime.Parse("1995-03-11"), DateEnd = DateTime.Parse("1995-03-11"), Month = "June", Submitted = "NO", Questions = new List<Question>() },
+                new Survey { Approved = "No", Title = "This is a survey",  DateAdded = DateTime.Parse("1995-03-11"), DateStart = DateTime.Parse("1995-03-11"), DateEnd = DateTime.Parse("1995-03-11"), Month = "June", Submitted = "NO", Questions = new List<Question>() }
             };
             surveys.ForEach(s => context.Surveys.Add(s));
             context.SaveChanges();
@@ -40,11 +40,35 @@ namespace EZ_Regulatory3.DAL
 
             var users = new List<User>
             {
-                new User { Password = "password", Name = "Hugh O'Connor", EmailAddress = "joe@ipsi.ie",  UserType = "Manager" },
-                new User { Password = "password", Name = "Olivia Wilde", EmailAddress = "joe@ipsi.ie",  UserType = "Manager" },
-                new User { Password = "password", Name = "Sinead Durnin", EmailAddress = "joe@ipsi.ie",  UserType = "RandC" }
+                new User { Password = "password", Name = "Hugh O'Connor", EmailAddress = "joe@ipsi.ie",  UserType = "Manager", SurveyAnswers = new List<SurveyAnswer>() },
+                new User { Password = "password", Name = "Olivia Wilde", EmailAddress = "joe@ipsi.ie",  UserType = "Manager", SurveyAnswers = new List<SurveyAnswer>() },
+                new User { Password = "password", Name = "Sinead Durnin", EmailAddress = "joe@ipsi.ie",  UserType = "RandC", SurveyAnswers = new List<SurveyAnswer>() }
             };
             users.ForEach(s => context.Users.Add(s));
+            context.SaveChanges();
+
+            var answers = new List<Answer>
+            {
+                new Answer { QuestionAnswer = "Yes",   QuestionID = 1, QuestionComment = "This is a comment"},
+                new Answer { QuestionAnswer = "No", QuestionID = 2}
+               
+            };
+            answers.ForEach(s => context.Answers.Add(s));
+            context.SaveChanges();
+
+            var surveyanswers = new List<SurveyAnswer>
+            {
+                new SurveyAnswer { SurveyID = 1,  Answers = new List<Answer>()}
+               
+            };
+            surveyanswers.ForEach(s => context.SurveyAnswers.Add(s));
+            context.SaveChanges();
+
+            surveyanswers[0].Answers.Add(answers[0]);
+            surveyanswers[0].Answers.Add(answers[1]);
+            context.SaveChanges();
+
+            users[0].SurveyAnswers.Add(surveyanswers[0]);
             context.SaveChanges();
         }
     }

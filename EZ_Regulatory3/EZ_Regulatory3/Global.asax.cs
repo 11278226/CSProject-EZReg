@@ -6,7 +6,6 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
-using System.Data.Entity;
 using EZ_Regulatory3.Models;
 using EZ_Regulatory3.DAL;
 

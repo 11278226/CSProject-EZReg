@@ -1,4 +1,4 @@
-﻿@model IEnumerable<EZ_Regulatory3.Models.Question>
+﻿@model IEnumerable<EZ_Regulatory3.Models.Survey>
 
 @{
     ViewBag.Title = "Index";
@@ -36,6 +36,9 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.ActionLink("ViewChecklist", "ViewChecklist", new { id=item.ID })
                 </td>
             </tr>
     

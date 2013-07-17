@@ -14,8 +14,6 @@ namespace EZ_Regulatory3.Models
         [Required]
         public string Title { get; set; }
 
-        public string Manager { get; set; }
-
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:d}")]
         public DateTime DateStart { get; set; }
@@ -38,5 +36,8 @@ namespace EZ_Regulatory3.Models
         public DateTime DateAdded { get; set; }
 
         public virtual ICollection<Question> Questions { get; set; }
+
+        public virtual ICollection<User> Users { get; set; }
+
     }
 }

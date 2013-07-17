@@ -7,17 +7,14 @@ using System.ComponentModel.DataAnnotations;
 
 namespace EZ_Regulatory3.Models
 {
-    public class Answer
+    public class SurveyAnswer
     {
+
         public int ID { get; set; }
 
         [Required]
-        public int QuestionID { get; set; }
+        public int SurveyID { get; set; }
 
-        [Required]
-        public string QuestionAnswer { get; set; }
-
-        public string QuestionComment { get; set; }
-
+        public virtual ICollection<Answer> Answers { get; set; }
     }
 }

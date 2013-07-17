@@ -18,13 +18,124 @@ namespace EZ_Regulatory3.Controllers
 
         public ViewResult Index()
         {
-            return View(db.Questions.ToList());
+            List<User> users = db.Users
+                .Where(i => i.SurveyAnswers.Count() != 0)
+                .ToList();
+            List<Survey> surveys = db.Surveys.ToList();
+            List<Survey> filteredList = new List<Survey>();
+
+            foreach (Survey s in surveys)
+            {
+                foreach (User u in users) 
+                {
+                    foreach (SurveyAnswer sa in u.SurveyAnswers)
+                    {
+                        if (s.ID == sa.SurveyID)
+                        {
+                            filteredList.Add(s);
+                        }
+                    }
+                }
+                
+            }
+
+            return View(filteredList);
         }
 
-        public ViewResult View()
+        public ViewResult ViewChecklist(int id)
         {
-            
-            return View(new Tuple<IEnumerable<Answer>, IEnumerable<Question>>(db.Answers.ToList(), db.Questions.ToList()));
+            Survey survey = db.Surveys
+                .Include(i => i.Questions)
+                .Where(i => i.ID == id)
+                .Single();
+            var questionlist = survey.Questions;
+
+            SurveyAnswer surveyanswer = db.SurveyAnswers
+                .Include(i => i.Answers)
+                .Where(i => i.SurveyID == id)
+                .Single();
+            var answerlist = surveyanswer.Answers;
+            return View(new Tuple<List<Answer>, List<Question>>(answerlist.ToList(), questionlist.ToList()));
+        }
+
+        [HttpPost]
+        public ActionResult ViewChecklist(int id, FormCollection formCollection, string[] selectedQuestions)
+        {
+            var surveyAnswerToUpdate = db.SurveyAnswers
+                .Include(i => i.SurveyID)
+                .Where(i => i.ID == id)
+                .Single();
+            if (TryUpdateModel(surveyAnswerToUpdate, "", null, new string[] { "Answers" }))
+            {
+                try
+                {
+                    //if (String.IsNullOrWhiteSpace(surveyToUpdate.OfficeAssignment.Location))
+                    //{
+                    //    surveyToUpdate.OfficeAssignment = null;
+                    //}
+
+                    UpdateSurveyAnswer(selectedQuestions, surveyAnswerToUpdate);
+
+                    db.Entry(surveyAnswerToUpdate).State = EntityState.Modified;
+                    db.SaveChanges();
+
+                    return RedirectToAction("Index");
+                }
+                catch (DataException)
+                {
+                    //Log the error (add a variable name after DataException)
+                    ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
+                }
+            }
+            PopulateAnswerData(surveyAnswerToUpdate);
+            return View(surveyAnswerToUpdate);
+        }
+
+        private void PopulateAnswerData(SurveyAnswer survey)
+        {
+            var allAnswers = db.Answers;
+            var surveyAnswers = new HashSet<int>(survey.Answers.Select(c => c.QuestionID));
+            //var viewModel = new List<AssignedAnswerData>();
+            foreach (var question in allAnswers)
+            {
+                //viewModel.Add(new AssignedQuestionData
+                //{
+                //    QuestionID = question.QuestionID,
+                //    Title = question.Title,
+                //    Assigned = surveyQuestions.Contains(question.QuestionID)
+                //});
+            }
+           // ViewBag.Questions = viewModel;
+        }
+
+        private void UpdateSurveyAnswer(string[] selectedAnswers, SurveyAnswer surveyAnswerToUpdate)
+        {
+            if (selectedAnswers == null)
+            {
+                surveyAnswerToUpdate.Answers = new List<Answer>();
+                return;
+            }
+
+            var selectedAnswersHS = new HashSet<string>(selectedAnswers);
+            var surveyQuestions = new HashSet<int>
+                (surveyAnswerToUpdate.Answers.Select(c => c.QuestionID));
+            foreach (var answer in db.Answers)
+            {
+                if (selectedAnswersHS.Contains(answer.QuestionID.ToString()))
+                {
+                    if (!surveyQuestions.Contains(answer.QuestionID))
+                    {
+                        surveyAnswerToUpdate.Answers.Add(answer);
+                    }
+                }
+                else
+                {
+                    if (surveyQuestions.Contains(answer.QuestionID))
+                    {
+                        surveyAnswerToUpdate.Answers.Remove(answer);
+                    }
+                }
+            }
         }
 
         //
