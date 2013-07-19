@@ -28,8 +28,8 @@ namespace EZ_Regulatory3.DAL
 
             var surveys = new List<Survey>
             {
-                new Survey { Approved = "No", Title = "This is a survey",  DateAdded = DateTime.Parse("1995-03-11"), DateStart = DateTime.Parse("1995-03-11"), DateEnd = DateTime.Parse("1995-03-11"), Month = "June", Submitted = "NO", Questions = new List<Question>() },
-                new Survey { Approved = "No", Title = "This is a survey",  DateAdded = DateTime.Parse("1995-03-11"), DateStart = DateTime.Parse("1995-03-11"), DateEnd = DateTime.Parse("1995-03-11"), Month = "June", Submitted = "NO", Questions = new List<Question>() }
+                new Survey { Approved = "No", Title = "This is a survey",  DateAdded = DateTime.Parse("1995-03-11"), DateStart = DateTime.Parse("1995-03-11"), DateEnd = DateTime.Parse("1995-03-11"), Month = "June", Submitted = "NO", Questions = new List<Question>(), Users = new List<User>() },
+                new Survey { Approved = "No", Title = "This is a survey",  DateAdded = DateTime.Parse("1995-03-11"), DateStart = DateTime.Parse("1995-03-11"), DateEnd = DateTime.Parse("1995-03-11"), Month = "June", Submitted = "NO", Questions = new List<Question>(), Users = new List<User>() }
             };
             surveys.ForEach(s => context.Surveys.Add(s));
             context.SaveChanges();
@@ -62,6 +62,12 @@ namespace EZ_Regulatory3.DAL
                
             };
             surveyanswers.ForEach(s => context.SurveyAnswers.Add(s));
+            context.SaveChanges();
+
+            surveys[0].Users.Add(users[0]);
+            context.SaveChanges();
+
+            users[0].SurveyAnswers.Add(surveyanswers[0]);
             context.SaveChanges();
 
             surveyanswers[0].Answers.Add(answers[0]);

@@ -21,7 +21,7 @@
 
     <div class="display-label">DateModified</div>
     <div class="display-field">
-        @Html.DisplayFor(model => model.DateModified)
+        @Html.DisplayFor(model => model.DateStart)
     </div>
 
     <div class="display-label">Submitted</div>
@@ -68,8 +68,29 @@
                             @: <td> 
                                 @question.QuestionID @:&nbsp; @question.Title
                             @:</td>
+                        }
+                        @: </tr>
+                    }
+            </table>
+        </div>
+        <div class="editor-field">
+            <table style="width: 100%">
+                <tr>
+                    <th>
+                        Users
+                    </th>
+                </tr>
+                <tr>
+                    @{
+                        int cntTwo = 0;
+                        List<EZ_Regulatory3.ViewModels.AssignedUserData> users = ViewBag.Users;
+                        foreach (var user in users)
+                        {
+                            if (cntTwo++ % 1 == 0) {
+                                @:  </tr> <tr> 
+                            }
                             @: <td> 
-                                @question.Answer 
+                                @user.UserID @:&nbsp; @user.Name
                             @:</td>
                         }
                         @: </tr>

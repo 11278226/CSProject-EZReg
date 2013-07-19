@@ -23,5 +23,7 @@ namespace EZ_Regulatory3.Models
 
         [Required]
         public string CompliantAnswer { get; set; }
+
+        public virtual Survey Surveys { get; set; }
     }
 }

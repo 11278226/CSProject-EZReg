@@ -9,6 +9,7 @@ namespace EZ_Regulatory3.Models
 {
     public class Survey
     {
+        public Survey() { Submitted = "No"; Approved = "No"; DateAdded = System.DateTime.Now; }
         public int ID { get; set; }
 
         [Required]

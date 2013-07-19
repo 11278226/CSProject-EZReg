@@ -59,13 +59,14 @@ namespace EZ_Regulatory3.Controllers
         //
         // GET: /Survey/Edit/5
 
-        public ActionResult Edit(int id, string[] selectedQuestions)
+        public ActionResult Edit(int id, string[] selectedQuestions, string[] selectedUsers)
         {
             Survey survey = db.Surveys
                 .Include(i => i.Questions)
                 .Where(i => i.ID == id)
                 .Single();
             PopulateAssignedQuestionData(survey);
+            PopulateAssignedUserData(survey);
             return View(survey);
         }
 
@@ -84,6 +85,23 @@ namespace EZ_Regulatory3.Controllers
                 });
             }
             ViewBag.Questions = viewModel;
+        }
+
+        private void PopulateAssignedUserData(Survey survey)
+        {
+            var allUsers = db.Users;
+            var surveyUsers = new HashSet<int>(survey.Users.Select(c => c.ID));
+            var viewModel = new List<AssignedUserData>();
+            foreach (var user in allUsers)
+            {
+                viewModel.Add(new AssignedUserData
+                {
+                    UserID = user.ID,
+                    Name = user.Name,
+                    Assigned = surveyUsers.Contains(user.ID)
+                });
+            }
+            ViewBag.Users = viewModel;
         }
 
         private void PopulateActiveAssignedQuestionData(Survey survey)
@@ -106,17 +124,37 @@ namespace EZ_Regulatory3.Controllers
             ViewBag.Questions = viewModel;
         }
 
+        private void PopulateActiveAssignedUserData(Survey survey)
+        {
+            var allUsers = db.Users;
+            var surveyUsers = new HashSet<int>(survey.Users.Select(c => c.ID));
+            var viewModel = new List<AssignedUserData>();
+            foreach (var user in allUsers)
+            {
+                if (surveyUsers.Contains(user.ID))
+                {
+                    viewModel.Add(new AssignedUserData
+                    {
+                        UserID = user.ID,
+                        Name = user.Name,
+                        Assigned = surveyUsers.Contains(user.ID)
+                    });
+                }
+            }
+            ViewBag.Users = viewModel;
+        }
+
         //
         // POST: /Instructor/Edit/5
 
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection formCollection, string[] selectedQuestions)
+        public ActionResult Edit(int id, FormCollection formCollection, string[] selectedQuestions, string[] selectedUsers)
         {
             var surveyToUpdate = db.Surveys
                 .Include(i => i.Questions)
                 .Where(i => i.ID == id)
                 .Single();
-            if (TryUpdateModel(surveyToUpdate, "", null, new string[] { "Questions" }))
+            if (TryUpdateModel(surveyToUpdate, "", null, new string[] { "Questions","Users" }))
             {
                 try
                 {
@@ -125,7 +163,7 @@ namespace EZ_Regulatory3.Controllers
                     //    surveyToUpdate.OfficeAssignment = null;
                     //}
 
-                    UpdateSurveyQuestions(selectedQuestions, surveyToUpdate);
+                    UpdateSurveyQuestionsAndUsers(selectedQuestions, selectedUsers, surveyToUpdate);
 
                     db.Entry(surveyToUpdate).State = EntityState.Modified;
                     db.SaveChanges();
@@ -139,34 +177,106 @@ namespace EZ_Regulatory3.Controllers
                 }
             }
             PopulateAssignedQuestionData(surveyToUpdate);
+            PopulateAssignedUserData(surveyToUpdate);
             return View(surveyToUpdate);
         }
 
-        private void UpdateSurveyQuestions(string[] selectedQuestions, Survey surveyToUpdate)
+        private void UpdateSurveyQuestionsAndUsers(string[] selectedQuestions, string[] selectedUsers, Survey surveyToUpdate)
         {
-            if (selectedQuestions == null)
+            if (selectedQuestions == null && selectedUsers == null)
             {
                 surveyToUpdate.Questions = new List<Question>();
+                surveyToUpdate.Users = new List<User>();
                 return;
             }
-
-            var selectedQuestionsHS = new HashSet<string>(selectedQuestions);
-            var surveyQuestions = new HashSet<int>
-                (surveyToUpdate.Questions.Select(c => c.QuestionID));
-            foreach (var question in db.Questions)
+            else if (selectedQuestions == null)
             {
-                if (selectedQuestionsHS.Contains(question.QuestionID.ToString()))
+                surveyToUpdate.Questions = new List<Question>();
+                var selectedUsersHS = new HashSet<string>(selectedUsers);
+                var surveyUsers = new HashSet<int>
+                    (surveyToUpdate.Users.Select(c => c.ID));
+                foreach (var user in db.Users)
                 {
-                    if (!surveyQuestions.Contains(question.QuestionID))
+                    if (selectedUsersHS.Contains(user.ID.ToString()))
                     {
-                        surveyToUpdate.Questions.Add(question);
+                        if (!surveyUsers.Contains(user.ID))
+                        {
+                            surveyToUpdate.Users.Add(user);
+                        }
+                    }
+                    else
+                    {
+                        if (surveyUsers.Contains(user.ID))
+                        {
+                            surveyToUpdate.Users.Remove(user);
+                        }
                     }
                 }
-                else
+            }
+            else if (selectedUsers == null)
+            {
+                surveyToUpdate.Users = new List<User>();
+                var selectedQuestionsHS = new HashSet<string>(selectedQuestions);
+                var surveyQuestions = new HashSet<int>
+                    (surveyToUpdate.Questions.Select(c => c.QuestionID));
+                foreach (var question in db.Questions)
                 {
-                    if (surveyQuestions.Contains(question.QuestionID))
+                    if (selectedQuestionsHS.Contains(question.QuestionID.ToString()))
                     {
-                        surveyToUpdate.Questions.Remove(question);
+                        if (!surveyQuestions.Contains(question.QuestionID))
+                        {
+                            surveyToUpdate.Questions.Add(question);
+                        }
+                    }
+                    else
+                    {
+                        if (surveyQuestions.Contains(question.QuestionID))
+                        {
+                            surveyToUpdate.Questions.Remove(question);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                var selectedQuestionsHS = new HashSet<string>(selectedQuestions);
+                var surveyQuestions = new HashSet<int>
+                    (surveyToUpdate.Questions.Select(c => c.QuestionID));
+                foreach (var question in db.Questions)
+                {
+                    if (selectedQuestionsHS.Contains(question.QuestionID.ToString()))
+                    {
+                        if (!surveyQuestions.Contains(question.QuestionID))
+                        {
+                            surveyToUpdate.Questions.Add(question);
+                        }
+                    }
+                    else
+                    {
+                        if (surveyQuestions.Contains(question.QuestionID))
+                        {
+                            surveyToUpdate.Questions.Remove(question);
+                        }
+                    }
+                }
+                var selectedUsersHS = new HashSet<string>(selectedUsers);
+                var surveyUsers = new HashSet<int>
+                    (surveyToUpdate.Users.Select(c => c.ID));
+                foreach (var user in db.Users)
+                {
+                    if (selectedUsersHS.Contains(user.ID.ToString()))
+                    {
+                        if (!surveyUsers.Contains(user.ID))
+                        {
+                            surveyToUpdate.Users.Add(user);
+                        }
+                    }
+                    else
+                    {
+                        if (surveyUsers.Contains(user.ID))
+                        {
+                            surveyToUpdate.Users.Remove(user);
+                        }
                     }
                 }
             }
@@ -206,6 +316,7 @@ namespace EZ_Regulatory3.Controllers
                 .Where(i => i.ID == id)
                 .Single();
             PopulateActiveAssignedQuestionData(survey);
+            PopulateActiveAssignedUserData(survey);
             return View(survey);
         }
     }

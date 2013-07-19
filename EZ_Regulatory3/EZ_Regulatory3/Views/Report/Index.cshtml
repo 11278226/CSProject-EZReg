@@ -7,9 +7,9 @@
 <h2>Monthly Reports</h2>
 <h3>@ViewBag.Message</h3>
 <p>
-    @Html.ActionLink("View Current Months Checklists", "Index") |
-    @Html.ActionLink("View Unapproved Checklists", "ViewUnapproved") |
-    @Html.ActionLink("View All Checklists", "ViewAll")
+    @Html.ActionLink("Current Month", "Index") |
+    @Html.ActionLink("Unapproved", "ViewUnapproved") |
+    @Html.ActionLink("All", "ViewAll")
 </p>
 <table>
     <tr>
@@ -33,7 +33,7 @@
 @foreach (var item in Model) { 
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Title)
+            @Html.ActionLink(item.Title, "ViewChecklist", new { id=item.ID })
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.DateStart)

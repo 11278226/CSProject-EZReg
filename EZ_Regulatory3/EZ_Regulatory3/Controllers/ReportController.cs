@@ -29,7 +29,10 @@ namespace EZ_Regulatory3.Controllers
             {
                 if (s.Month.ToUpper() == dt.ToString("MMMM").ToUpper())
                 {
-                    filteredList.Add(s);
+                    foreach (User u in s.Users)
+                    {
+                        filteredList.Add(s);
+                    }
                 }
                 
             }
@@ -40,8 +43,18 @@ namespace EZ_Regulatory3.Controllers
         {
             ViewBag.Message = "View All Surveys";
             List<Survey> surveys = db.Surveys.ToList();
+            List<Survey> filteredList = new List<Survey>();
+            foreach (Survey s in surveys)
+            {
+                foreach (User u in s.Users)
+                    {
+                        filteredList.Add(s);
+                    }
+                
+
+            }
             
-            return View(surveys);
+            return View(filteredList);
         }
 
         public ViewResult ViewUnapproved()
@@ -51,9 +64,12 @@ namespace EZ_Regulatory3.Controllers
             List<Survey> filteredList = new List<Survey>();
             foreach (Survey s in surveys)
             {
-                if (s.Approved.ToUpper() == "NO")
+                foreach (User u in s.Users)
                 {
-                    filteredList.Add(s);
+                    if (s.Approved.ToUpper() == "NO")
+                    {
+                        filteredList.Add(s);
+                    }
                 }
             }
             return View(filteredList);

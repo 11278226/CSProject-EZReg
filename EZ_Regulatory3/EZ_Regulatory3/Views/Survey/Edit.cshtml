@@ -90,6 +90,30 @@
                     }
             </table>
         </div>
+        <div class="editor-field">
+            <table style="width: 100%">
+                <tr>
+                    @{
+                        int cntTwo = 0;
+                        List<EZ_Regulatory3.ViewModels.AssignedUserData> users = ViewBag.Users;
+
+                        foreach (var user in users)
+                        {
+                            if (cntTwo++ % 3 == 0) {
+                                @:  </tr> <tr> 
+                            }
+                            @: <td> 
+                                <input type="checkbox" 
+                                       name="selectedUsers" 
+                                       value="@user.UserID" 
+                                       @(Html.Raw(user.Assigned ? "checked=\"checked\"" : "")) /> 
+                                @user.UserID @:&nbsp; @user.Name
+                            @:</td>
+                        }
+                        @: </tr>
+                    }
+            </table>
+        </div>
         <p>
             <input type="submit" value="Save" />
         </p>
