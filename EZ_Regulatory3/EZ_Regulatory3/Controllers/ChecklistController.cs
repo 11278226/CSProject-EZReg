@@ -42,7 +42,7 @@ namespace EZ_Regulatory3.Controllers
             return View(filteredList);
         }
 
-        public ViewResult ViewChecklist(int id)
+        public ViewResult ViewChecklist(int id, string[] selectedQuestions, string[] selectedAnswers)
         {
             Survey survey = db.Surveys
                 .Include(i => i.Questions)
@@ -59,20 +59,15 @@ namespace EZ_Regulatory3.Controllers
         }
 
         [HttpPost]
-        public ActionResult ViewChecklist(int id, FormCollection formCollection, string[] selectedQuestions)
+        public ActionResult ViewChecklist(int id, FormCollection formCollection, string[] selectedQuestions, string[] selectedAnswers)
         {
             var surveyAnswerToUpdate = db.SurveyAnswers
-                .Include(i => i.SurveyID)
                 .Where(i => i.ID == id)
                 .Single();
             if (TryUpdateModel(surveyAnswerToUpdate, "", null, new string[] { "Answers" }))
             {
                 try
                 {
-                    //if (String.IsNullOrWhiteSpace(surveyToUpdate.OfficeAssignment.Location))
-                    //{
-                    //    surveyToUpdate.OfficeAssignment = null;
-                    //}
 
                     UpdateSurveyAnswer(selectedQuestions, surveyAnswerToUpdate);
 

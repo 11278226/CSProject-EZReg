@@ -98,6 +98,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ChecklistController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ManagerChecklistController.cs" />
     <Compile Include="Controllers\ManagerController.cs" />
     <Compile Include="Controllers\QuestionController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
@@ -110,7 +111,6 @@
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\Answer.cs" />
-    <Compile Include="Models\Checklist.cs" />
     <Compile Include="Models\Question.cs" />
     <Compile Include="Models\Survey.cs" />
     <Compile Include="Models\SurveyAnswer.cs" />
@@ -176,6 +176,7 @@
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
     <Content Include="Global.asax" />
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
+    <Content Include="Images\EZRegLogo.png" />
     <Content Include="Scripts\jquery-1.7.1.js" />
     <Content Include="Scripts\jquery-1.7.1.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -241,6 +242,11 @@
     <Content Include="Views\Checklist\ViewChecklist.cshtml" />
     <Content Include="Views\Manager\Manager.cshtml" />
     <Content Include="Views\Manager\Index.cshtml" />
+    <Content Include="Views\ManagerChecklist\Index.cshtml" />
+    <Content Include="Views\ManagerChecklist\Details.cshtml" />
+    <Content Include="Views\ManagerChecklist\Create.cshtml" />
+    <Content Include="Views\ManagerChecklist\Edit.cshtml" />
+    <Content Include="Views\ManagerChecklist\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

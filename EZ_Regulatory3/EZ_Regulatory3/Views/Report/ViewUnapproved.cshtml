@@ -18,7 +18,13 @@
             Survey
         </th>
         <th>
-            Date Modified
+            Date Start
+        </th>
+        <th>
+            Date End
+        </th>
+        <th>
+            Month
         </th>
         <th>
             Submitted
@@ -34,13 +40,16 @@
 @foreach (var item in Model) { 
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Title)
+            @Html.ActionLink(item.Title, "ViewChecklist", new { id=item.ID })
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.DateStart)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.DateEnd)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Month)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Submitted)

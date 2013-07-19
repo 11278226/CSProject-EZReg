@@ -1,0 +1,39 @@
+﻿@model IEnumerable<EZ_Regulatory3.Models.User>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+
+<table>
+    <tr>
+        <th>
+            User Name
+        </th>
+        <th>
+            Checklist Name
+        </th>
+    </tr>
+
+        @foreach (var item in Model) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+            </tr>
+                foreach(var survey in item.Surveys)
+                {
+                  <tr> 
+                    <td></td> 
+                        <td>
+                            @Html.ActionLink(survey.Title, "Details", new { id=item.ID , surveyid = survey.ID})
+                        </td>
+                  </tr>
+                }
+    
+
+        }
+
+</table>

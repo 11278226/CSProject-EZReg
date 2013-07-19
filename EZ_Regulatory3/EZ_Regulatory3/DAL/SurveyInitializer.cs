@@ -13,14 +13,14 @@ namespace EZ_Regulatory3.DAL
         {
             var questions = new List<Question>
             {
-                new Question { Title = "This is a question 1",     Type = "Yes/No", DateModified = DateTime.Parse("1995-03-11"), CompliantAnswer = "No"},
-                new Question { Title = "This is another question",   Type = "Yes/No", DateModified = DateTime.Parse("2004-02-12"), CompliantAnswer = "Yes"},
-                new Question { Title = "This is a question 2",     Type = "Yes/No", DateModified = DateTime.Parse("1995-03-11"), CompliantAnswer = "No"},
-                new Question { Title = "This is a question 3",     Type = "Yes/No", DateModified = DateTime.Parse("1995-03-11"), CompliantAnswer = "No"},
-                new Question { Title = "This is a question 4",     Type = "Yes/No", DateModified = DateTime.Parse("1995-03-11"), CompliantAnswer = "No"},
-                new Question { Title = "This is a question 5",     Type = "Yes/No", DateModified = DateTime.Parse("1995-03-11"), CompliantAnswer = "No"},
-                new Question { Title = "This is a question 6",     Type = "Yes/No", DateModified = DateTime.Parse("1995-03-11"), CompliantAnswer = "No"},
-                new Question { Title = "This is a question 7",     Type = "Yes/No", DateModified = DateTime.Parse("1995-03-11"), CompliantAnswer = "No"}
+                new Question { Title = "This is a question 1",     Type = "Yes/No", DateModified = DateTime.Parse("1995-03-11"), CompliantAnswer = "No", Surveys = new List<Survey>()},
+                new Question { Title = "This is another question",   Type = "Yes/No", DateModified = DateTime.Parse("2004-02-12"), CompliantAnswer = "Yes", Surveys = new List<Survey>()},
+                new Question { Title = "This is a question 2",     Type = "Yes/No", DateModified = DateTime.Parse("1995-03-11"), CompliantAnswer = "No", Surveys = new List<Survey>()},
+                new Question { Title = "This is a question 3",     Type = "Yes/No", DateModified = DateTime.Parse("1995-03-11"), CompliantAnswer = "No", Surveys = new List<Survey>()},
+                new Question { Title = "This is a question 4",     Type = "Yes/No", DateModified = DateTime.Parse("1995-03-11"), CompliantAnswer = "No", Surveys = new List<Survey>()},
+                new Question { Title = "This is a question 5",     Type = "Yes/No", DateModified = DateTime.Parse("1995-03-11"), CompliantAnswer = "No", Surveys = new List<Survey>()},
+                new Question { Title = "This is a question 6",     Type = "Yes/No", DateModified = DateTime.Parse("1995-03-11"), CompliantAnswer = "No", Surveys = new List<Survey>()},
+                new Question { Title = "This is a question 7",     Type = "Yes/No", DateModified = DateTime.Parse("1995-03-11"), CompliantAnswer = "No", Surveys = new List<Survey>()}
             };
             questions.ForEach(s => context.Questions.Add(s));
             context.SaveChanges();
@@ -40,9 +40,9 @@ namespace EZ_Regulatory3.DAL
 
             var users = new List<User>
             {
-                new User { Password = "password", Name = "Hugh O'Connor", EmailAddress = "joe@ipsi.ie",  UserType = "Manager", SurveyAnswers = new List<SurveyAnswer>() },
-                new User { Password = "password", Name = "Olivia Wilde", EmailAddress = "joe@ipsi.ie",  UserType = "Manager", SurveyAnswers = new List<SurveyAnswer>() },
-                new User { Password = "password", Name = "Sinead Durnin", EmailAddress = "joe@ipsi.ie",  UserType = "RandC", SurveyAnswers = new List<SurveyAnswer>() }
+                new User { Password = "password", Name = "Hugh O'Connor", EmailAddress = "joe@ipsi.ie",  UserType = "Manager", SurveyAnswers = new List<SurveyAnswer>(), Surveys = new List<Survey>() },
+                new User { Password = "password", Name = "Olivia Wilde", EmailAddress = "joe@ipsi.ie",  UserType = "Manager", SurveyAnswers = new List<SurveyAnswer>(), Surveys = new List<Survey>() },
+                new User { Password = "password", Name = "Sinead Durnin", EmailAddress = "joe@ipsi.ie",  UserType = "RandC", SurveyAnswers = new List<SurveyAnswer>(), Surveys = new List<Survey>() }
             };
             users.ForEach(s => context.Users.Add(s));
             context.SaveChanges();
@@ -58,7 +58,7 @@ namespace EZ_Regulatory3.DAL
 
             var surveyanswers = new List<SurveyAnswer>
             {
-                new SurveyAnswer { SurveyID = 1,  Answers = new List<Answer>()}
+                new SurveyAnswer { SurveyID = 1, UserID = 1,  Answers = new List<Answer>()}
                
             };
             surveyanswers.ForEach(s => context.SurveyAnswers.Add(s));

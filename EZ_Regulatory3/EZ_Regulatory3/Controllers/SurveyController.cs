@@ -154,7 +154,8 @@ namespace EZ_Regulatory3.Controllers
                 .Include(i => i.Questions)
                 .Where(i => i.ID == id)
                 .Single();
-            if (TryUpdateModel(surveyToUpdate, "", null, new string[] { "Questions","Users" }))
+            
+            if (TryUpdateModel(surveyToUpdate, "", null, new string[] { "Questions","Users", "SurveyAnswers" }))
             {
                 try
                 {
@@ -164,6 +165,17 @@ namespace EZ_Regulatory3.Controllers
                     //}
 
                     UpdateSurveyQuestionsAndUsers(selectedQuestions, selectedUsers, surveyToUpdate);
+                    
+                    foreach (string user in selectedUsers)
+                    {
+                        int userID = Convert.ToInt32(user);
+                        var userToUpdate = db.Users
+                        .Include(i => i.SurveyAnswers)
+                        .Where(i => i.ID == userID)
+                        .Single();
+                        UpdateUsersAnswerSurveys(selectedQuestions, id, userToUpdate);
+
+                    }
 
                     db.Entry(surveyToUpdate).State = EntityState.Modified;
                     db.SaveChanges();
@@ -179,6 +191,26 @@ namespace EZ_Regulatory3.Controllers
             PopulateAssignedQuestionData(surveyToUpdate);
             PopulateAssignedUserData(surveyToUpdate);
             return View(surveyToUpdate);
+        }
+
+        private void UpdateUsersAnswerSurveys(string[] selectedQuestions, int surveyID, User userToUpdate)
+        {
+            if (selectedQuestions == null)
+            {
+                userToUpdate.SurveyAnswers = new List<SurveyAnswer>();
+                return;
+            }
+            else
+            {
+                List<Answer> answers = new List<Answer>();
+                foreach (string questionID in selectedQuestions)
+                {
+                    answers.Add(new Answer{QuestionID = Convert.ToInt32(questionID)});
+                }
+                SurveyAnswer newSurveyAnswer = new SurveyAnswer { UserID = userToUpdate.ID, SurveyID = surveyID, Answers = answers };
+                userToUpdate.SurveyAnswers.Add(newSurveyAnswer);
+            }
+           
         }
 
         private void UpdateSurveyQuestionsAndUsers(string[] selectedQuestions, string[] selectedUsers, Survey surveyToUpdate)

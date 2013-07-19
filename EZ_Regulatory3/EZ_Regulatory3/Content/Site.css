@@ -257,6 +257,7 @@ div#title {
     display: block;
     text-align: right;
     margin: 10px;
+    height: 200px;
     color: White;
 }
 

@@ -36,6 +36,7 @@ namespace EZ_Regulatory3.Models
         [DisplayFormat(DataFormatString = "{0:d}")]
         public DateTime DateAdded { get; set; }
 
+        //public virtual ICollection<QuestionChecklistLink> QuestionChekcklistLinks { get; set; }
         public virtual ICollection<Question> Questions { get; set; }
 
         public virtual ICollection<User> Users { get; set; }
