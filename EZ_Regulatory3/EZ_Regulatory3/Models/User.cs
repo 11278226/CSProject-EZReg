@@ -22,8 +22,6 @@ namespace EZ_Regulatory3.Models
 
         public string EmailAddress { get; set; }
 
-        public virtual ICollection<SurveyAnswer> SurveyAnswers { get; set; }
-
         public virtual ICollection<Survey> Surveys { get; set; }
 
 

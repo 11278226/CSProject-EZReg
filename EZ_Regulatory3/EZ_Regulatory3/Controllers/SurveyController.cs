@@ -155,28 +155,12 @@ namespace EZ_Regulatory3.Controllers
                 .Where(i => i.ID == id)
                 .Single();
             
-            if (TryUpdateModel(surveyToUpdate, "", null, new string[] { "Questions","Users", "SurveyAnswers" }))
+            if (TryUpdateModel(surveyToUpdate, "", null, new string[] { "Questions", "Users", "SurveyAnswers", "Answers" }))
             {
                 try
                 {
-                    //if (String.IsNullOrWhiteSpace(surveyToUpdate.OfficeAssignment.Location))
-                    //{
-                    //    surveyToUpdate.OfficeAssignment = null;
-                    //}
-
                     UpdateSurveyQuestionsAndUsers(selectedQuestions, selectedUsers, surveyToUpdate);
                     
-                    foreach (string user in selectedUsers)
-                    {
-                        int userID = Convert.ToInt32(user);
-                        var userToUpdate = db.Users
-                        .Include(i => i.SurveyAnswers)
-                        .Where(i => i.ID == userID)
-                        .Single();
-                        UpdateUsersAnswerSurveys(selectedQuestions, id, userToUpdate);
-
-                    }
-
                     db.Entry(surveyToUpdate).State = EntityState.Modified;
                     db.SaveChanges();
 
@@ -188,27 +172,61 @@ namespace EZ_Regulatory3.Controllers
                     ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
                 }
             }
+            
+            
             PopulateAssignedQuestionData(surveyToUpdate);
             PopulateAssignedUserData(surveyToUpdate);
             return View(surveyToUpdate);
         }
 
-        private void UpdateUsersAnswerSurveys(string[] selectedQuestions, int surveyID, User userToUpdate)
+        private void UpdateUsersAnswerSurveys(string[] selectedQuestions, string[] selectedUsers, Survey surveyToUpdate)
         {
             if (selectedQuestions == null)
             {
-                userToUpdate.SurveyAnswers = new List<SurveyAnswer>();
+                surveyToUpdate.SurveyAnswers = new List<SurveyAnswer>();
                 return;
             }
             else
             {
-                List<Answer> answers = new List<Answer>();
-                foreach (string questionID in selectedQuestions)
+                
+
+                var surveyAnswersExistCount = db.SurveyAnswers
+                        .Include(i => i.ID)
+                        .Where(i => i.SurveyID == surveyToUpdate.ID && i.UserID == surveyToUpdate.ID)
+                        .Count();
+
+               
+            
+                if (!(surveyAnswersExistCount > 0))
                 {
-                    answers.Add(new Answer{QuestionID = Convert.ToInt32(questionID)});
+
+                    List<Answer> answers = new List<Answer>();
+                    foreach (string questionID in selectedQuestions)
+                    {
+                        answers.Add(new Answer { QuestionID = Convert.ToInt32(questionID) });
+                    }
+                    SurveyAnswer newSurveyAnswer = new SurveyAnswer { UserID = surveyToUpdate.ID, SurveyID = surveyToUpdate.ID, Answers = answers };
+                    surveyToUpdate.SurveyAnswers.Add(newSurveyAnswer);
                 }
-                SurveyAnswer newSurveyAnswer = new SurveyAnswer { UserID = userToUpdate.ID, SurveyID = surveyID, Answers = answers };
-                userToUpdate.SurveyAnswers.Add(newSurveyAnswer);
+                else
+                {
+                    var surveyAnswersExist = db.SurveyAnswers
+                        .Where(i => i.SurveyID == surveyToUpdate.ID && i.UserID == surveyToUpdate.ID)
+                        .Single();
+                    //su
+                    foreach (Answer a in surveyAnswersExist.Answers)
+                    {
+                        
+                    }
+                    surveyToUpdate.SurveyAnswers.Remove(surveyAnswersExist);
+                    List<Answer> answers = new List<Answer>();
+                    foreach (string questionID in selectedQuestions)
+                    {
+                        answers.Add(new Answer { QuestionID = Convert.ToInt32(questionID) });
+                    }
+                    SurveyAnswer newSurveyAnswer = new SurveyAnswer { UserID = surveyToUpdate.ID, SurveyID = surveyToUpdate.ID, Answers = answers };
+                    surveyToUpdate.SurveyAnswers.Add(newSurveyAnswer);
+                }
             }
            
         }
@@ -219,6 +237,7 @@ namespace EZ_Regulatory3.Controllers
             {
                 surveyToUpdate.Questions = new List<Question>();
                 surveyToUpdate.Users = new List<User>();
+                surveyToUpdate.SurveyAnswers = new List<SurveyAnswer>();
                 return;
             }
             else if (selectedQuestions == null)
@@ -234,6 +253,13 @@ namespace EZ_Regulatory3.Controllers
                         if (!surveyUsers.Contains(user.ID))
                         {
                             surveyToUpdate.Users.Add(user);
+                            List<Answer> answers = new List<Answer>();
+                            foreach (string questionID in selectedQuestions)
+                            {
+                                answers.Add(new Answer { QuestionID = Convert.ToInt32(questionID) });
+                            }
+                            SurveyAnswer newSurveyAnswer = new SurveyAnswer { UserID = user.ID, SurveyID = surveyToUpdate.ID, Answers = answers };
+                            surveyToUpdate.SurveyAnswers.Add(newSurveyAnswer);
                         }
                     }
                     else
@@ -241,6 +267,11 @@ namespace EZ_Regulatory3.Controllers
                         if (surveyUsers.Contains(user.ID))
                         {
                             surveyToUpdate.Users.Remove(user);
+                            //var surveyAnswersExist = db.SurveyAnswers
+                            //    .Where(i => i.SurveyID == surveyToUpdate.ID && i.UserID == user.ID)
+                            //    .Single();
+                            //surveyToUpdate.SurveyAnswers.Remove(surveyAnswersExist);
+                           
                         }
                     }
                 }
@@ -257,13 +288,31 @@ namespace EZ_Regulatory3.Controllers
                     {
                         if (!surveyQuestions.Contains(question.QuestionID))
                         {
+                            var surveyAnswersExist = db.SurveyAnswers
+                                .Where(i => i.SurveyID == surveyToUpdate.ID)
+                                .ToList();
+                            foreach (SurveyAnswer surveyanswer in surveyToUpdate.SurveyAnswers)
+                            {
+                                surveyanswer.Answers.Add(new Answer { QuestionID = Convert.ToInt32(question.QuestionID) });
+                            }
                             surveyToUpdate.Questions.Add(question);
+                            
                         }
                     }
                     else
                     {
                         if (surveyQuestions.Contains(question.QuestionID))
                         {
+                            foreach (SurveyAnswer surveyanswer in surveyToUpdate.SurveyAnswers)
+                            {
+                                foreach (Answer answer in surveyanswer.Answers)
+                                {
+                                    if (answer.QuestionID == question.QuestionID)
+                                    {
+                                        surveyanswer.Answers.Remove(answer);
+                                    }
+                                }
+                            }
                             surveyToUpdate.Questions.Remove(question);
                         }
                     }
@@ -280,6 +329,13 @@ namespace EZ_Regulatory3.Controllers
                     {
                         if (!surveyQuestions.Contains(question.QuestionID))
                         {
+                            var surveyAnswersExist = db.SurveyAnswers
+                                .Where(i => i.SurveyID == surveyToUpdate.ID)
+                                .ToList();
+                            foreach(SurveyAnswer surveyanswer in surveyToUpdate.SurveyAnswers)
+                            {
+                                surveyanswer.Answers.Add(new Answer { QuestionID = Convert.ToInt32(question.QuestionID) });
+                            }
                             surveyToUpdate.Questions.Add(question);
                         }
                     }
@@ -287,6 +343,17 @@ namespace EZ_Regulatory3.Controllers
                     {
                         if (surveyQuestions.Contains(question.QuestionID))
                         {
+                            foreach (SurveyAnswer surveyanswer in surveyToUpdate.SurveyAnswers)
+                            {
+                                for (int x = surveyanswer.Answers.Count()-1; x >= 0; x--)
+                                {
+                                    Answer answer = surveyanswer.Answers.ElementAt(x);
+                                    if (answer.QuestionID == question.QuestionID)
+                                    {
+                                        surveyanswer.Answers.Remove(answer);
+                                    }
+                                }
+                            }
                             surveyToUpdate.Questions.Remove(question);
                         }
                     }
@@ -301,6 +368,13 @@ namespace EZ_Regulatory3.Controllers
                         if (!surveyUsers.Contains(user.ID))
                         {
                             surveyToUpdate.Users.Add(user);
+                            List<Answer> answers = new List<Answer>();
+                            foreach (string questionID in selectedQuestions)
+                            {
+                                answers.Add(new Answer { QuestionID = Convert.ToInt32(questionID) });
+                            }
+                            SurveyAnswer newSurveyAnswer = new SurveyAnswer { UserID = user.ID, SurveyID = surveyToUpdate.ID, Answers = answers };
+                            surveyToUpdate.SurveyAnswers.Add(newSurveyAnswer);
                         }
                     }
                     else
@@ -308,6 +382,21 @@ namespace EZ_Regulatory3.Controllers
                         if (surveyUsers.Contains(user.ID))
                         {
                             surveyToUpdate.Users.Remove(user);
+                            var surveyAnswersExist = db.SurveyAnswers
+                                .Where(i => i.SurveyID == surveyToUpdate.ID && i.UserID == user.ID)
+                                .Single();
+                            
+                            
+                            
+                            //for (int x = surveyAnswersExist.Answers.Count() - 1; x >= 0; x--)
+                            //{
+                            //    Answer answer = surveyAnswersExist.Answers.ElementAt(x);
+                            //    surveyAnswersExist.Answers.Remove(answer);
+                            //}
+                            
+                            
+                            //surveyToUpdate.SurveyAnswers.Remove(surveyAnswersExist);
+                            
                         }
                     }
                 }

@@ -41,5 +41,7 @@ namespace EZ_Regulatory3.Models
 
         public virtual ICollection<User> Users { get; set; }
 
+        public virtual ICollection<SurveyAnswer> SurveyAnswers { get; set; }
+
     }
 }

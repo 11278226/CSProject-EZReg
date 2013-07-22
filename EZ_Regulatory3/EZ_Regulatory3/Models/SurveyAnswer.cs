@@ -26,5 +26,6 @@ namespace EZ_Regulatory3.Models
         public string Approved { get; set; }
 
         public virtual ICollection<Answer> Answers { get; set; }
+
     }
 }

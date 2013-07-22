@@ -1,4 +1,4 @@
-﻿@model IEnumerable<EZ_Regulatory3.Models.User>
+﻿@model IEnumerable<EZ_Regulatory3.Models.Survey>
 
 @{
     ViewBag.Title = "Index";
@@ -20,15 +20,15 @@
         @foreach (var item in Model) {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Name)
+                    @Html.DisplayFor(modelItem => item.Title)
                 </td>
             </tr>
-                foreach(var survey in item.Surveys)
+                foreach(var user in item.Users)
                 {
                   <tr> 
                     <td></td> 
                         <td>
-                            @Html.ActionLink(survey.Title, "Details", new { id=item.ID , surveyid = survey.ID})
+                            @Html.ActionLink(user.Name, "Details", new { id=user.ID , surveyid = item.ID})
                         </td>
                   </tr>
                 }

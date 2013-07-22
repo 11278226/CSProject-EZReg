@@ -40,9 +40,9 @@ namespace EZ_Regulatory3.DAL
 
             var users = new List<User>
             {
-                new User { Password = "password", Name = "Hugh O'Connor", EmailAddress = "joe@ipsi.ie",  UserType = "Manager", SurveyAnswers = new List<SurveyAnswer>(), Surveys = new List<Survey>() },
-                new User { Password = "password", Name = "Olivia Wilde", EmailAddress = "joe@ipsi.ie",  UserType = "Manager", SurveyAnswers = new List<SurveyAnswer>(), Surveys = new List<Survey>() },
-                new User { Password = "password", Name = "Sinead Durnin", EmailAddress = "joe@ipsi.ie",  UserType = "RandC", SurveyAnswers = new List<SurveyAnswer>(), Surveys = new List<Survey>() }
+                new User { Password = "password", Name = "Hugh O'Connor", EmailAddress = "joe@ipsi.ie",  UserType = "Manager", Surveys = new List<Survey>() },
+                new User { Password = "password", Name = "Olivia Wilde", EmailAddress = "joe@ipsi.ie",  UserType = "Manager", Surveys = new List<Survey>() },
+                new User { Password = "password", Name = "Sinead Durnin", EmailAddress = "joe@ipsi.ie",  UserType = "RandC", Surveys = new List<Survey>() }
             };
             users.ForEach(s => context.Users.Add(s));
             context.SaveChanges();
@@ -67,14 +67,11 @@ namespace EZ_Regulatory3.DAL
             surveys[0].Users.Add(users[0]);
             context.SaveChanges();
 
-            users[0].SurveyAnswers.Add(surveyanswers[0]);
-            context.SaveChanges();
-
             surveyanswers[0].Answers.Add(answers[0]);
             surveyanswers[0].Answers.Add(answers[1]);
             context.SaveChanges();
 
-            users[0].SurveyAnswers.Add(surveyanswers[0]);
+            surveys[0].SurveyAnswers.Add(surveyanswers[0]);
             context.SaveChanges();
         }
     }

@@ -19,7 +19,7 @@ namespace EZ_Regulatory3.Controllers
         public ViewResult Index()
         {
             List<User> users = db.Users
-                .Where(i => i.SurveyAnswers.Count() != 0)
+                .Where(i => i.Surveys.Count() != 0)
                 .ToList();
             List<Survey> surveys = db.Surveys.ToList();
             List<Survey> filteredList = new List<Survey>();
@@ -28,9 +28,9 @@ namespace EZ_Regulatory3.Controllers
             {
                 foreach (User u in users) 
                 {
-                    foreach (SurveyAnswer sa in u.SurveyAnswers)
+                    foreach (Survey sa in u.Surveys)
                     {
-                        if (s.ID == sa.SurveyID)
+                        if (s.ID == sa.ID)
                         {
                             filteredList.Add(s);
                         }

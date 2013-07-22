@@ -18,7 +18,7 @@ namespace EZ_Regulatory3.Controllers
 
         public ViewResult Index()
         {
-            List<User> users = db.Users
+            List<Survey> surveys = db.Surveys
             .Where(i => i.SurveyAnswers.Count() != 0)
                 .ToList();
             //List<Survey> surveys = db.Surveys.ToList();
@@ -39,7 +39,7 @@ namespace EZ_Regulatory3.Controllers
             //    
             //}
 
-            return View(users);
+            return View(surveys);
         }
 
         //
