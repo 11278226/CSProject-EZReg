@@ -14,7 +14,7 @@ namespace EZ_Regulatory3.Models
         public int ID { get; set; }
 
         [Required]
-        public int SurveyID { get; set; }
+        public int? SurveyID { get; set; }
 
         [Required]
         public int UserID { get; set; }

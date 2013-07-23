@@ -155,7 +155,7 @@ namespace EZ_Regulatory3.Controllers
                 .Where(i => i.ID == id)
                 .Single();
             
-            if (TryUpdateModel(surveyToUpdate, "", null, new string[] { "Questions", "Users", "SurveyAnswers", "Answers" }))
+            if (TryUpdateModel(surveyToUpdate, "", null, new string[] { "Questions", "Users", "Answers" }))
             {
                 try
                 {
@@ -179,58 +179,6 @@ namespace EZ_Regulatory3.Controllers
             return View(surveyToUpdate);
         }
 
-        private void UpdateUsersAnswerSurveys(string[] selectedQuestions, string[] selectedUsers, Survey surveyToUpdate)
-        {
-            if (selectedQuestions == null)
-            {
-                surveyToUpdate.SurveyAnswers = new List<SurveyAnswer>();
-                return;
-            }
-            else
-            {
-                
-
-                var surveyAnswersExistCount = db.SurveyAnswers
-                        .Include(i => i.ID)
-                        .Where(i => i.SurveyID == surveyToUpdate.ID && i.UserID == surveyToUpdate.ID)
-                        .Count();
-
-               
-            
-                if (!(surveyAnswersExistCount > 0))
-                {
-
-                    List<Answer> answers = new List<Answer>();
-                    foreach (string questionID in selectedQuestions)
-                    {
-                        answers.Add(new Answer { QuestionID = Convert.ToInt32(questionID) });
-                    }
-                    SurveyAnswer newSurveyAnswer = new SurveyAnswer { UserID = surveyToUpdate.ID, SurveyID = surveyToUpdate.ID, Answers = answers };
-                    surveyToUpdate.SurveyAnswers.Add(newSurveyAnswer);
-                }
-                else
-                {
-                    var surveyAnswersExist = db.SurveyAnswers
-                        .Where(i => i.SurveyID == surveyToUpdate.ID && i.UserID == surveyToUpdate.ID)
-                        .Single();
-                    //su
-                    foreach (Answer a in surveyAnswersExist.Answers)
-                    {
-                        
-                    }
-                    surveyToUpdate.SurveyAnswers.Remove(surveyAnswersExist);
-                    List<Answer> answers = new List<Answer>();
-                    foreach (string questionID in selectedQuestions)
-                    {
-                        answers.Add(new Answer { QuestionID = Convert.ToInt32(questionID) });
-                    }
-                    SurveyAnswer newSurveyAnswer = new SurveyAnswer { UserID = surveyToUpdate.ID, SurveyID = surveyToUpdate.ID, Answers = answers };
-                    surveyToUpdate.SurveyAnswers.Add(newSurveyAnswer);
-                }
-            }
-           
-        }
-
         private void UpdateSurveyQuestionsAndUsers(string[] selectedQuestions, string[] selectedUsers, Survey surveyToUpdate)
         {
             if (selectedQuestions == null && selectedUsers == null)
@@ -238,6 +186,19 @@ namespace EZ_Regulatory3.Controllers
                 surveyToUpdate.Questions = new List<Question>();
                 surveyToUpdate.Users = new List<User>();
                 surveyToUpdate.SurveyAnswers = new List<SurveyAnswer>();
+                var allSurveyAnswers = db.SurveyAnswers
+                                .Where(i => i.SurveyID == surveyToUpdate.ID)
+                                .ToList();
+                for (int x = allSurveyAnswers.Count() - 1; x >= 0; x--)
+                {
+                    SurveyAnswer surveyAnswers = allSurveyAnswers.ElementAt(x);
+                    for (int y = surveyAnswers.Answers.Count() - 1; y >= 0; y--)
+                    {
+                        Answer answer = surveyAnswers.Answers.ElementAt(y);
+                        db.Answers.Remove(answer);
+                    }
+                    db.SurveyAnswers.Remove(surveyAnswers);
+                }
                 return;
             }
             else if (selectedQuestions == null)
@@ -254,10 +215,10 @@ namespace EZ_Regulatory3.Controllers
                         {
                             surveyToUpdate.Users.Add(user);
                             List<Answer> answers = new List<Answer>();
-                            foreach (string questionID in selectedQuestions)
-                            {
-                                answers.Add(new Answer { QuestionID = Convert.ToInt32(questionID) });
-                            }
+                            //foreach (string questionID in selectedQuestions)
+                            //{
+                            //    answers.Add(new Answer { QuestionID = Convert.ToInt32(questionID) });
+                            //}
                             SurveyAnswer newSurveyAnswer = new SurveyAnswer { UserID = user.ID, SurveyID = surveyToUpdate.ID, Answers = answers };
                             surveyToUpdate.SurveyAnswers.Add(newSurveyAnswer);
                         }
@@ -267,11 +228,17 @@ namespace EZ_Regulatory3.Controllers
                         if (surveyUsers.Contains(user.ID))
                         {
                             surveyToUpdate.Users.Remove(user);
-                            //var surveyAnswersExist = db.SurveyAnswers
-                            //    .Where(i => i.SurveyID == surveyToUpdate.ID && i.UserID == user.ID)
-                            //    .Single();
-                            //surveyToUpdate.SurveyAnswers.Remove(surveyAnswersExist);
-                           
+                            
+                            var surveyAnswersExist = db.SurveyAnswers
+                                .Where(i => i.SurveyID == surveyToUpdate.ID && i.UserID == user.ID)
+                                .Single();
+                            
+                            for (int x = surveyAnswersExist.Answers.Count() - 1; x >= 0; x--)
+                            {
+                                Answer answer = surveyAnswersExist.Answers.ElementAt(x);
+                                db.Answers.Remove(answer);
+                            }
+                            db.SurveyAnswers.Remove(surveyAnswersExist);
                         }
                     }
                 }
@@ -279,6 +246,21 @@ namespace EZ_Regulatory3.Controllers
             else if (selectedUsers == null)
             {
                 surveyToUpdate.Users = new List<User>();
+                surveyToUpdate.SurveyAnswers = new List<SurveyAnswer>();
+                var allSurveyAnswers = db.SurveyAnswers
+                                .Where(i => i.SurveyID == surveyToUpdate.ID)
+                                .ToList();
+                for (int x = allSurveyAnswers.Count() - 1; x >= 0; x--)
+                {
+                    SurveyAnswer surveyAnswers = allSurveyAnswers.ElementAt(x);
+                    for (int y = surveyAnswers.Answers.Count() - 1; y >= 0; y--)
+                    {
+                        Answer answer = surveyAnswers.Answers.ElementAt(y);
+                        db.Answers.Remove(answer);
+                    }
+                    db.SurveyAnswers.Remove(surveyAnswers);
+                }
+                
                 var selectedQuestionsHS = new HashSet<string>(selectedQuestions);
                 var surveyQuestions = new HashSet<int>
                     (surveyToUpdate.Questions.Select(c => c.QuestionID));
@@ -388,12 +370,12 @@ namespace EZ_Regulatory3.Controllers
                             
                             
                             
-                            //for (int x = surveyAnswersExist.Answers.Count() - 1; x >= 0; x--)
-                            //{
-                            //    Answer answer = surveyAnswersExist.Answers.ElementAt(x);
-                            //    surveyAnswersExist.Answers.Remove(answer);
-                            //}
-                            
+                            for (int x = surveyAnswersExist.Answers.Count() - 1; x >= 0; x--)
+                            {
+                                Answer answer = surveyAnswersExist.Answers.ElementAt(x);
+                                db.Answers.Remove(answer);
+                            }
+                            db.SurveyAnswers.Remove(surveyAnswersExist);
                             
                             //surveyToUpdate.SurveyAnswers.Remove(surveyAnswersExist);
                             

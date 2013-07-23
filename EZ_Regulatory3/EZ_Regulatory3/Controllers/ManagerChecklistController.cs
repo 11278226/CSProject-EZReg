@@ -88,23 +88,46 @@ namespace EZ_Regulatory3.Controllers
  
         public ActionResult Edit(int id)
         {
-            User user = db.Users.Find(id);
-            return View(user);
+            SurveyAnswer surveyanswer = db.SurveyAnswers.ToList()
+                .Where(i => i.ID == id)
+                .Single();
+
+            User user = db.Users.Find(surveyanswer.UserID);
+            ViewBag.UserName = user.Name;
+            Survey survey = db.Surveys.Find(surveyanswer.SurveyID);
+            ViewBag.Questions = survey.Questions.ToList();
+            return View(surveyanswer);
         }
 
         //
         // POST: /ManagerChecklist/Edit/5
 
         [HttpPost]
-        public ActionResult Edit(User user)
+        public ActionResult Edit(int id, string[] answers, string[] comments)
         {
-            if (ModelState.IsValid)
+            var surveyAnswersToUpdate = db.SurveyAnswers
+                .Include(i => i.Answers)
+                .Where(i => i.ID == id)
+                .Single();
+
+            if (TryUpdateModel(surveyAnswersToUpdate, "", null, new string[] { "Answers" }))
             {
-                db.Entry(user).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                try
+                {
+                    
+
+                    db.Entry(surveyAnswersToUpdate).State = EntityState.Modified;
+                    db.SaveChanges();
+
+                    return RedirectToAction("Index");
+                }
+                catch (DataException)
+                {
+                    //Log the error (add a variable name after DataException)
+                    ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
+                }
             }
-            return View(user);
+            return View(surveyAnswersToUpdate.ID);
         }
 
         //
