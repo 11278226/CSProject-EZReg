@@ -247,6 +247,7 @@
     <Content Include="Views\ManagerChecklist\Create.cshtml" />
     <Content Include="Views\ManagerChecklist\Edit.cshtml" />
     <Content Include="Views\ManagerChecklist\Delete.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\DateTime.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
