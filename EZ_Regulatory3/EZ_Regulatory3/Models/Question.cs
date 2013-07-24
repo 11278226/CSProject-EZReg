@@ -24,7 +24,6 @@ namespace EZ_Regulatory3.Models
         [Required]
         public string CompliantAnswer { get; set; }
 
-        //public virtual QuestionChecklistLink QuestionChecklistLinks { get; set; }
         public virtual ICollection<Survey> Surveys { get; set; }
     }
 }

@@ -12,34 +12,38 @@
 @using (Html.BeginForm()) {
     @Html.ValidationSummary(true)
     <fieldset>
-        <legend>Survey</legend>
-<table> 
-    <tr> 
-        <th>Question</th> 
-        <th>Answer</th> 
-        <th>Comment</th> 
-    </tr>
-@for(int i=0; i<Model.Answers.Count();i++) {
-    EZ_Regulatory3.Models.Answer answer = Model.Answers.ElementAt(i);
-    List<EZ_Regulatory3.Models.Question> questions = ViewBag.Questions;
-    EZ_Regulatory3.Models.Question question = questions.ToList()
-        .Where(j => j.QuestionID == answer.QuestionID)
-                .Single();
-    <tr>
-            <td class="editor-label">
-                @Html.DisplayFor(model => question.Title)
-            </td>
-            <td class="editor-label">
-                @Html.EditorFor(model => answer.QuestionAnswer)
-                @Html.ValidationMessageFor(model => answer.QuestionAnswer)
-            </td>
-            <td class="editor-label">
-                @Html.EditorFor(model => answer.QuestionComment)
-                @Html.ValidationMessageFor(model => answer.QuestionComment)
-            </td>
-    </tr>
-        }
-    </table>
+        <legend>Checklist</legend>
+        <div class="editor-field">
+        <table> 
+            <tr> 
+                <th>Question</th> 
+                <th>Answer</th> 
+                <th>Comment</th> 
+            </tr>
+            @{
+                List<EZ_Regulatory3.ViewModels.QuestionCommentsAndAnswers> questionsAndAnswers = ViewBag.Answers;
+                foreach(var questionAndAnswer in questionsAndAnswers) {
+                <tr>
+                        <td>
+                            @Html.DisplayFor(model => questionAndAnswer.Question)
+                        </td>
+                         <td> 
+                            <input type="text" 
+                                    name="questionAnswers" 
+                                    value="@questionAndAnswer.QuestionAnswer" /> 
+                            
+                        </td>
+                         <td> 
+                            <input type="text" 
+                                    name="questionComments" 
+                                    value="@questionAndAnswer.QuestionComment" /> 
+                            
+                        </td>
+                </tr>
+                }
+            }
+        </table>
+        </div>
         <p>
             <input type="submit" value="Save" />
         </p>

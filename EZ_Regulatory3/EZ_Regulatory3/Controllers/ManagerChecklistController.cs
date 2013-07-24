@@ -6,9 +6,10 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using EZ_Regulatory3.Models;
+using EZ_Regulatory3.ViewModels;
 
 namespace EZ_Regulatory3.Controllers
-{ 
+{
     public class ManagerChecklistController : Controller
     {
         private SurveyDBContext db = new SurveyDBContext();
@@ -55,7 +56,7 @@ namespace EZ_Regulatory3.Controllers
             ViewBag.UserName = user.Name;
             Survey survey = db.Surveys.Find(surveyid);
             ViewBag.Questions = survey.Questions.ToList();
-            
+
             return View(surveyanswer);
         }
 
@@ -65,7 +66,7 @@ namespace EZ_Regulatory3.Controllers
         public ActionResult Create()
         {
             return View();
-        } 
+        }
 
         //
         // POST: /ManagerChecklist/Create
@@ -77,62 +78,82 @@ namespace EZ_Regulatory3.Controllers
             {
                 db.Users.Add(user);
                 db.SaveChanges();
-                return RedirectToAction("Index");  
+                return RedirectToAction("Index");
             }
 
             return View(user);
         }
-        
+
         //
         // GET: /ManagerChecklist/Edit/5
- 
+
         public ActionResult Edit(int id)
         {
-            SurveyAnswer surveyanswer = db.SurveyAnswers.ToList()
+            SurveyAnswer surveyAnswer = db.SurveyAnswers.ToList()
                 .Where(i => i.ID == id)
                 .Single();
 
-            User user = db.Users.Find(surveyanswer.UserID);
+            User user = db.Users.Find(surveyAnswer.UserID);
             ViewBag.UserName = user.Name;
-            Survey survey = db.Surveys.Find(surveyanswer.SurveyID);
+            Survey survey = db.Surveys.Find(surveyAnswer.SurveyID);
             ViewBag.Questions = survey.Questions.ToList();
-            return View(surveyanswer);
+            populateQuestionsAndAnswers(surveyAnswer);
+            return View(surveyAnswer);
+        }
+
+        private void populateQuestionsAndAnswers(SurveyAnswer surveyAnswer)
+        {
+            var viewModel = new List<QuestionCommentsAndAnswers>();
+            foreach (var answers in surveyAnswer.Answers)
+            {
+                Question thisQuestion = db.Questions.Find(answers.QuestionID);
+                viewModel.Add(new QuestionCommentsAndAnswers
+                {
+                    Question = thisQuestion.Title,
+                    QuestionID = answers.QuestionID,
+                    QuestionAnswer = answers.QuestionAnswer,
+                    QuestionComment = answers.QuestionComment
+                });
+            }
+            ViewBag.Answers = viewModel;
         }
 
         //
         // POST: /ManagerChecklist/Edit/5
 
         [HttpPost]
-        public ActionResult Edit(int id, string[] answers, string[] comments)
+        public ActionResult Edit(int id, string[] questionAnswers, string[] questionComments)
         {
-            var surveyAnswersToUpdate = db.SurveyAnswers
-                .Include(i => i.Answers)
+            SurveyAnswer surveyAnswer = db.SurveyAnswers.ToList()
                 .Where(i => i.ID == id)
                 .Single();
 
-            if (TryUpdateModel(surveyAnswersToUpdate, "", null, new string[] { "Answers" }))
+            UpdateSurveyAnswers(surveyAnswer, questionAnswers, questionComments);
+
+            db.Entry(surveyAnswer).State = EntityState.Modified;
+            db.SaveChanges();
+
+            return RedirectToAction("Index");
+
+        }
+
+        private void UpdateSurveyAnswers(SurveyAnswer surveyAnswer, string[] questionAnswers, string[] questionComments)
+        {
+            for (int i = 0; i < surveyAnswer.Answers.Count(); i++)
             {
-                try
-                {
-                    
-
-                    db.Entry(surveyAnswersToUpdate).State = EntityState.Modified;
-                    db.SaveChanges();
-
-                    return RedirectToAction("Index");
-                }
-                catch (DataException)
-                {
-                    //Log the error (add a variable name after DataException)
-                    ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
-                }
+                Answer ans = surveyAnswer.Answers.ElementAt(i);
+                ans.QuestionAnswer = questionAnswers[i];
+                ans.QuestionComment = questionComments[i];
+                db.Entry(ans).State = EntityState.Modified;
+                db.SaveChanges();
             }
-            return View(surveyAnswersToUpdate.ID);
+
+
         }
 
         //
         // GET: /ManagerChecklist/Delete/5
- 
+
         public ActionResult Delete(int id)
         {
             User user = db.Users.Find(id);
@@ -144,7 +165,7 @@ namespace EZ_Regulatory3.Controllers
 
         [HttpPost, ActionName("Delete")]
         public ActionResult DeleteConfirmed(int id)
-        {            
+        {
             User user = db.Users.Find(id);
             db.Users.Remove(user);
             db.SaveChanges();
