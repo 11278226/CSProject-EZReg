@@ -42,8 +42,10 @@
             @Html.LabelFor(model => model.CompliantAnswer)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.CompliantAnswer)
+            @Html.RadioButtonFor(model =>model.CompliantAnswer,"Yes",true) Yes 
+            @Html.RadioButtonFor(model =>model.CompliantAnswer,"No",false) No            
             @Html.ValidationMessageFor(model => model.CompliantAnswer)
+
         </div>
 
         <p>
