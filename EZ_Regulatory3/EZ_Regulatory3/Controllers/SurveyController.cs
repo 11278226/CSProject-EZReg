@@ -37,6 +37,22 @@ namespace EZ_Regulatory3.Controllers
 
         public ActionResult Create()
         {
+            List<SelectListItem> items = new List<SelectListItem>();
+
+            items.Add(new SelectListItem { Text = "January", Value = "January" });
+            items.Add(new SelectListItem { Text = "February", Value = "February" });
+            items.Add(new SelectListItem { Text = "March", Value = "March" });
+            items.Add(new SelectListItem { Text = "April", Value = "April" });
+            items.Add(new SelectListItem { Text = "May", Value = "May" });
+            items.Add(new SelectListItem { Text = "June", Value = "June" });
+            items.Add(new SelectListItem { Text = "July", Value = "July" });
+            items.Add(new SelectListItem { Text = "August", Value = "August" });
+            items.Add(new SelectListItem { Text = "September", Value = "September" });
+            items.Add(new SelectListItem { Text = "October", Value = "October" });
+            items.Add(new SelectListItem { Text = "November", Value = "November" });
+            items.Add(new SelectListItem { Text = "December", Value = "December" });
+
+            ViewBag.Month = items;
             return View();
         }
 
@@ -67,6 +83,71 @@ namespace EZ_Regulatory3.Controllers
                 .Single();
             PopulateAssignedQuestionData(survey);
             PopulateAssignedUserData(survey);
+            
+            List<SelectListItem> items = new List<SelectListItem>();
+
+            items.Add(new SelectListItem { Text = "January", Value = "January" });
+            items.Add(new SelectListItem { Text = "February", Value = "February" });
+            items.Add(new SelectListItem { Text = "March", Value = "March" });
+            items.Add(new SelectListItem { Text = "April", Value = "April" });
+            items.Add(new SelectListItem { Text = "May", Value = "May" });
+            items.Add(new SelectListItem { Text = "June", Value = "June" });
+            items.Add(new SelectListItem { Text = "July", Value = "July" });
+            items.Add(new SelectListItem { Text = "August", Value = "August" });
+            items.Add(new SelectListItem { Text = "September", Value = "September" });
+            items.Add(new SelectListItem { Text = "October", Value = "October" });
+            items.Add(new SelectListItem { Text = "November", Value = "November" });
+            items.Add(new SelectListItem { Text = "December", Value = "December" });
+            if (survey.Month == "January")
+            {
+                items.ElementAt(0).Selected = true;
+            }
+            else if (survey.Month == "February")
+            {
+                items.ElementAt(1).Selected = true;
+            }
+            else if (survey.Month == "March")
+            {
+                items.ElementAt(2).Selected = true;
+            }
+            else if (survey.Month == "April")
+            {
+                items.ElementAt(3).Selected = true;
+            }
+            else if (survey.Month == "May")
+            {
+                items.ElementAt(4).Selected = true;
+            }
+            else if (survey.Month == "June")
+            {
+                items.ElementAt(5).Selected = true;
+            }
+            else if (survey.Month == "July")
+            {
+                items.ElementAt(6).Selected = true;
+            }
+            else if (survey.Month == "August")
+            {
+                items.ElementAt(7).Selected = true;
+            }
+            else if (survey.Month == "September")
+            {
+                items.ElementAt(8).Selected = true;
+            }
+            else if (survey.Month == "October")
+            {
+                items.ElementAt(9).Selected = true;
+            }
+            else if (survey.Month == "November")
+            {
+                items.ElementAt(10).Selected = true;
+            }
+            else if (survey.Month == "December")
+            {
+                items.ElementAt(11).Selected = true;
+            }
+            ViewBag.Month = items;
+
             return View(survey);
         }
 
@@ -401,6 +482,20 @@ namespace EZ_Regulatory3.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Survey survey = db.Surveys.Find(id);
+            survey.SurveyAnswers = new List<SurveyAnswer>();
+            var allSurveyAnswers = db.SurveyAnswers
+                            .Where(i => i.SurveyID == survey.ID)
+                            .ToList();
+            for (int x = allSurveyAnswers.Count() - 1; x >= 0; x--)
+            {
+                SurveyAnswer surveyAnswers = allSurveyAnswers.ElementAt(x);
+                for (int y = surveyAnswers.Answers.Count() - 1; y >= 0; y--)
+                {
+                    Answer answer = surveyAnswers.Answers.ElementAt(y);
+                    db.Answers.Remove(answer);
+                }
+                db.SurveyAnswers.Remove(surveyAnswers);
+            }
             db.Surveys.Remove(survey);
             db.SaveChanges();
             return RedirectToAction("Index");

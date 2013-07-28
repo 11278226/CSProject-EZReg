@@ -1,0 +1,36 @@
+﻿@model EZ_Regulatory3.Models.SurveyAnswer
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details for @ViewBag.UserName</h2>
+
+<table> 
+    <tr> 
+        <th>Question ID</th> 
+        <th>Answer</th> 
+        <th>Comment</th> 
+    </tr>
+@for(int i=0; i<Model.Answers.Count();i++) {
+    EZ_Regulatory3.Models.Answer answer = Model.Answers.ElementAt(i);
+    List<EZ_Regulatory3.Models.Question> questions = ViewBag.Questions;
+    EZ_Regulatory3.Models.Question question = questions.ToList()
+        .Where(j => j.QuestionID == answer.QuestionID)
+                .Single();
+    <tr>
+            <td class="editor-label">
+                @Html.DisplayFor(model => question.Title)
+            </td>
+            <td class="editor-label">
+                @Html.DisplayFor(model => answer.QuestionAnswer)
+            </td>
+            <td class="editor-label">
+                @Html.DisplayFor(model => answer.QuestionComment)
+            </td>
+    </tr>
+        }
+    </table>
+<p>
+    @Html.ActionLink("Back to List", "Index")
+</p>

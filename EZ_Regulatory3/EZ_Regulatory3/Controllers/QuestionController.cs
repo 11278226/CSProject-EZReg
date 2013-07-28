@@ -35,6 +35,11 @@ namespace EZ_Regulatory3.Controllers
 
         public ActionResult Create()
         {
+            List<SelectListItem> items = new List<SelectListItem>();
+
+            items.Add(new SelectListItem { Text = "Yes/No", Value = "Yes/No" });
+
+            ViewBag.Type = items;
             return View();
         } 
 
@@ -60,6 +65,18 @@ namespace EZ_Regulatory3.Controllers
         public ActionResult Edit(int id)
         {
             Question question = db.Questions.Find(id);
+
+            List<SelectListItem> items = new List<SelectListItem>();
+
+            items.Add(new SelectListItem { Text = "Yes/No", Value = "Yes/No" });
+
+            if (question.Type == "Yes/No")
+                items.ElementAt(0).Selected = true;
+
+            ViewBag.Type = items;
+
+
+
             return View(question);
         }
 

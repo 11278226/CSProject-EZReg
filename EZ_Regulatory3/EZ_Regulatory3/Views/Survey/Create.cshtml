@@ -12,7 +12,7 @@
 @using (Html.BeginForm()) {
     @Html.ValidationSummary(true)
     <fieldset>
-        <legend>Survey</legend>
+        <legend>Checklist</legend>
 
         <div class="editor-label">
             @Html.LabelFor(model => model.Title)
@@ -43,7 +43,7 @@
             @Html.LabelFor(model => model.Month)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.Month)
+            @Html.DropDownList("Month")
             @Html.ValidationMessageFor(model => model.Month)
         </div>
         

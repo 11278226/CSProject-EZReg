@@ -10,6 +10,7 @@ namespace EZ_Regulatory3.ViewModels
         public int QuestionID { get; set; }
         public string Question { get; set; }
         public string QuestionAnswer { get; set; }
+        public bool QuestionYesNo { get; set; }
         public string QuestionComment { get; set; }
     }
 }

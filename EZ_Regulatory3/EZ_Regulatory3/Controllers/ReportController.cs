@@ -36,7 +36,8 @@ namespace EZ_Regulatory3.Controllers
                 }
                 
             }
-            return View(filteredList);
+            ViewBag.currentMonth = dt.ToString("MMMM").ToUpper();
+            return View(surveys);
         }
 
         public ViewResult ViewAll()
@@ -54,7 +55,7 @@ namespace EZ_Regulatory3.Controllers
 
             }
             
-            return View(filteredList);
+            return View(surveys);
         }
 
         public ViewResult ViewUnapproved()
@@ -72,7 +73,21 @@ namespace EZ_Regulatory3.Controllers
                     }
                 }
             }
-            return View(filteredList);
+            return View(surveys);
+        }
+
+        public ViewResult Details(int id, int surveyid)
+        {
+            SurveyAnswer surveyanswer = db.SurveyAnswers.ToList()
+                .Where(i => i.UserID == id && i.SurveyID == surveyid)
+                .Single();
+
+            User user = db.Users.Find(id);
+            ViewBag.UserName = user.Name;
+            Survey survey = db.Surveys.Find(surveyid);
+            ViewBag.Questions = survey.Questions.ToList();
+
+            return View(surveyanswer);
         }
     }
 }

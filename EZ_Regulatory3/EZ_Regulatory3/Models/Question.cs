@@ -9,6 +9,8 @@ namespace EZ_Regulatory3.Models
 {
     public class Question
     {
+        public Question() { DateModified = System.DateTime.Now; }
+
         public int QuestionID { get; set; }
 
         [Required]

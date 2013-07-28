@@ -122,8 +122,9 @@ namespace EZ_Regulatory3.Controllers
         // POST: /ManagerChecklist/Edit/5
 
         [HttpPost]
-        public ActionResult Edit(int id, string[] questionAnswers, string[] questionComments)
+        public ActionResult Edit(int id, FormCollection formCollection, string[] questionAnswers, string[] questionComments, IList<bool> questionYesNo)
         {
+            //formCollection.
             SurveyAnswer surveyAnswer = db.SurveyAnswers.ToList()
                 .Where(i => i.ID == id)
                 .Single();

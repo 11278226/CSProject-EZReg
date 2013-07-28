@@ -23,18 +23,10 @@
         </div>
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.DateModified)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.DateModified)
-            @Html.ValidationMessageFor(model => model.DateModified)
-        </div>
-
-        <div class="editor-label">
             @Html.LabelFor(model => model.Type)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.Type)
+            @Html.DropDownList("QuestionType")
             @Html.ValidationMessageFor(model => model.Type)
         </div>
 

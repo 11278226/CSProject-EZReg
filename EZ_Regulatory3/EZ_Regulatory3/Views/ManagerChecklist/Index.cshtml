@@ -18,15 +18,12 @@
     </tr>
 
         @foreach (var item in Model) {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Title)
-                </td>
-            </tr>
                 foreach(var user in item.Users)
                 {
                   <tr> 
-                    <td></td> 
+                        <td>
+                            @Html.ActionLink(item.Title, "Details", new { id=user.ID , surveyid = item.ID})
+                        </td>
                         <td>
                             @Html.ActionLink(user.Name, "Details", new { id=user.ID , surveyid = item.ID})
                         </td>

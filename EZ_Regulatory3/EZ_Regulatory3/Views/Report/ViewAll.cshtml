@@ -15,13 +15,16 @@
 <table>
     <tr>
         <th>
-            Survey
+            Name
         </th>
         <th>
-            Date Start
+            Checklist
         </th>
         <th>
-            Date End
+            Start Date
+        </th>
+        <th>
+            End Date
         </th>
         <th>
             Month
@@ -37,29 +40,42 @@
         </th>
     </tr>
 
-@foreach (var item in Model) { 
-    <tr>
-        <td>
-            @Html.ActionLink(item.Title, "ViewChecklist", new { id=item.ID })
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DateStart)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DateEnd)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Month)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Submitted)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Approved)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DateAdded)
-        </td>
-    </tr>
-}
+    @foreach (var item in Model) {
+            //<tr>
+            //    <td>
+            //        @Html.DisplayFor(modelItem => item.Title)
+            //    </td>
+            //</tr>
+                foreach(var user in item.Users)
+                {
+                  <tr> 
+                      <td>
+                        @Html.ActionLink(user.Name,  "Details", new { id=user.ID , surveyid = item.ID})
+                    </td>
+                      <td>
+                        @Html.ActionLink(item.Title,  "Details", new { id=user.ID , surveyid = item.ID})
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DateStart)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DateEnd)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Month)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Submitted)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Approved)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DateAdded)
+                    </td>
+                  </tr>
+                }
+    
+
+        }
 </table>

@@ -15,10 +15,10 @@
             Title
         </th>
         <th>
-            Date Start
+            Start Date
         </th>
         <th>
-            Date End
+            End Date 
         </th>
         <th>
             Month
@@ -49,7 +49,7 @@
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
+            @Html.ActionLink("Details", "View", new { id=item.ID }) | 
             @Html.ActionLink("Delete", "Delete", new { id=item.ID })
         </td>
     </tr>

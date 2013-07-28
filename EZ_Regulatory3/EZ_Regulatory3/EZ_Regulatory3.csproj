@@ -257,6 +257,7 @@
     <Content Include="Views\ManagerHome\Create.cshtml" />
     <Content Include="Views\ManagerHome\Edit.cshtml" />
     <Content Include="Views\ManagerHome\Delete.cshtml" />
+    <Content Include="Views\Report\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -15,13 +15,16 @@
 <table>
     <tr>
         <th>
-            Survey
+            Name
         </th>
         <th>
-            Date Start
+            Checklist
         </th>
         <th>
-            Date End
+            Start Date
+        </th>
+        <th>
+            End Date
         </th>
         <th>
             Month
@@ -38,9 +41,15 @@
     </tr>
 
 @foreach (var item in Model) { 
+    if(item.Approved.ToUpper() == "NO") {
+        foreach(var user in item.Users)
+                {
     <tr>
         <td>
-            @Html.ActionLink(item.Title, "ViewChecklist", new { id=item.ID })
+                        @Html.ActionLink(user.Name,  "Details", new { id=user.ID , surveyid = item.ID})
+        </td>
+        <td>
+                        @Html.ActionLink(item.Title,  "Details", new { id=user.ID , surveyid = item.ID})
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.DateStart)
@@ -61,5 +70,7 @@
             @Html.DisplayFor(modelItem => item.DateAdded)
         </td>
     </tr>
+}
+}
 }
 </table>
