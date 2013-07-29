@@ -15,6 +15,9 @@
         <th>
             User Name
         </th>
+        <th>
+            Export to CSV
+        </th>
     </tr>
 
         @foreach (var item in Model) {
@@ -26,6 +29,9 @@
                         </td>
                         <td>
                             @Html.ActionLink(user.Name, "Details", new { id=user.ID , surveyid = item.ID})
+                        </td>
+                      <td>
+                            @Html.ActionLink("Export", "CSV", new { userID=user.ID , surveyID = item.ID})
                         </td>
                   </tr>
                 }

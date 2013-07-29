@@ -105,6 +105,7 @@
     <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\SurveyController.cs" />
     <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="CSV\CSVActionResult.cs" />
     <Compile Include="DAL\SurveyDBContext.cs" />
     <Compile Include="DAL\SurveyInitializer.cs" />
     <Compile Include="Global.asax.cs">
