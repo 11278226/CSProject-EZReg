@@ -167,13 +167,13 @@ ul#menu {
             }
 
             ul#menu li a:active {
-                background-color: #a6e2a6;
+                background-color: #696969;
                 text-decoration: none;
             }
 
         ul#menu li.selected a {
-            background-color: #fff;
-            color: #000;
+            background-color: #696969;
+            color: #fff;
         }
 
 /* FORM LAYOUT ELEMENTS   

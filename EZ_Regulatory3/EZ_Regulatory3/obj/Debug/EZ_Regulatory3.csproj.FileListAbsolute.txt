@@ -60,3 +60,4 @@ C:\Users\Diarmuid\Documents\GitHub\CSProject-EZReg\EZ_Regulatory3\EZ_Regulatory3
 C:\Users\Diarmuid\Documents\GitHub\CSProject-EZReg\EZ_Regulatory3\EZ_Regulatory3\obj\Debug\EZ_Regulatory3.dll
 C:\Users\Diarmuid\Documents\GitHub\CSProject-EZReg\EZ_Regulatory3\EZ_Regulatory3\obj\Debug\EZ_Regulatory3.pdb
 C:\Users\Diarmuid\Documents\GitHub\CSProject-EZReg\EZ_Regulatory3\EZ_Regulatory3\obj\Debug\EZ_Regulatory3.csprojResolveAssemblyReference.cache
+C:\Users\Brkelly\Documents\GitHub\CSProject-EZReg\EZ_Regulatory3\EZ_Regulatory3\obj\Debug\EZ_Regulatory3.csprojResolveAssemblyReference.cache
