@@ -19,26 +19,6 @@ C:\Users\Diarmuid\Documents\Visual Studio 2012\Projects\EZ_Regulatory3\EZ_Regula
 C:\Users\Diarmuid\Documents\Visual Studio 2012\Projects\EZ_Regulatory3\EZ_Regulatory3\obj\Debug\EZ_Regulatory3.dll
 C:\Users\Diarmuid\Documents\Visual Studio 2012\Projects\EZ_Regulatory3\EZ_Regulatory3\obj\Debug\EZ_Regulatory3.pdb
 C:\Users\Diarmuid\Documents\Visual Studio 2012\Projects\EZ_Regulatory3\EZ_Regulatory3\obj\Debug\EZ_Regulatory3.csprojResolveAssemblyReference.cache
-C:\Users\Diarmuid\Documents\GitHub\CSProject-EZReg\EZ_Regulatory3\EZ_Regulatory3\bin\EZ_Regulatory3.dll
-C:\Users\Diarmuid\Documents\GitHub\CSProject-EZReg\EZ_Regulatory3\EZ_Regulatory3\bin\EZ_Regulatory3.pdb
-C:\Users\Diarmuid\Documents\GitHub\CSProject-EZReg\EZ_Regulatory3\EZ_Regulatory3\bin\EntityFramework.dll
-C:\Users\Diarmuid\Documents\GitHub\CSProject-EZReg\EZ_Regulatory3\EZ_Regulatory3\bin\Microsoft.Web.Infrastructure.dll
-C:\Users\Diarmuid\Documents\GitHub\CSProject-EZReg\EZ_Regulatory3\EZ_Regulatory3\bin\System.Web.Helpers.dll
-C:\Users\Diarmuid\Documents\GitHub\CSProject-EZReg\EZ_Regulatory3\EZ_Regulatory3\bin\System.Web.Mvc.dll
-C:\Users\Diarmuid\Documents\GitHub\CSProject-EZReg\EZ_Regulatory3\EZ_Regulatory3\bin\System.Web.Providers.dll
-C:\Users\Diarmuid\Documents\GitHub\CSProject-EZReg\EZ_Regulatory3\EZ_Regulatory3\bin\System.Web.Razor.dll
-C:\Users\Diarmuid\Documents\GitHub\CSProject-EZReg\EZ_Regulatory3\EZ_Regulatory3\bin\System.Web.WebPages.Deployment.dll
-C:\Users\Diarmuid\Documents\GitHub\CSProject-EZReg\EZ_Regulatory3\EZ_Regulatory3\bin\System.Web.WebPages.dll
-C:\Users\Diarmuid\Documents\GitHub\CSProject-EZReg\EZ_Regulatory3\EZ_Regulatory3\bin\System.Web.WebPages.Razor.dll
-C:\Users\Diarmuid\Documents\GitHub\CSProject-EZReg\EZ_Regulatory3\EZ_Regulatory3\bin\EntityFramework.xml
-C:\Users\Diarmuid\Documents\GitHub\CSProject-EZReg\EZ_Regulatory3\EZ_Regulatory3\bin\System.Web.Helpers.xml
-C:\Users\Diarmuid\Documents\GitHub\CSProject-EZReg\EZ_Regulatory3\EZ_Regulatory3\bin\System.Web.Mvc.xml
-C:\Users\Diarmuid\Documents\GitHub\CSProject-EZReg\EZ_Regulatory3\EZ_Regulatory3\bin\System.Web.Razor.xml
-C:\Users\Diarmuid\Documents\GitHub\CSProject-EZReg\EZ_Regulatory3\EZ_Regulatory3\bin\System.Web.WebPages.xml
-C:\Users\Diarmuid\Documents\GitHub\CSProject-EZReg\EZ_Regulatory3\EZ_Regulatory3\bin\System.Web.WebPages.Deployment.xml
-C:\Users\Diarmuid\Documents\GitHub\CSProject-EZReg\EZ_Regulatory3\EZ_Regulatory3\bin\System.Web.WebPages.Razor.xml
-C:\Users\Diarmuid\Documents\GitHub\CSProject-EZReg\EZ_Regulatory3\EZ_Regulatory3\obj\Debug\EZ_Regulatory3.dll
-C:\Users\Diarmuid\Documents\GitHub\CSProject-EZReg\EZ_Regulatory3\EZ_Regulatory3\obj\Debug\EZ_Regulatory3.pdb
 C:\Users\Brkelly\Documents\GitHub\CSProject-EZReg\EZ_Regulatory3\EZ_Regulatory3\bin\EZ_Regulatory3.dll
 C:\Users\Brkelly\Documents\GitHub\CSProject-EZReg\EZ_Regulatory3\EZ_Regulatory3\bin\EZ_Regulatory3.pdb
 C:\Users\Brkelly\Documents\GitHub\CSProject-EZReg\EZ_Regulatory3\EZ_Regulatory3\bin\EntityFramework.dll
@@ -59,4 +39,24 @@ C:\Users\Brkelly\Documents\GitHub\CSProject-EZReg\EZ_Regulatory3\EZ_Regulatory3\
 C:\Users\Brkelly\Documents\GitHub\CSProject-EZReg\EZ_Regulatory3\EZ_Regulatory3\bin\System.Web.WebPages.Razor.xml
 C:\Users\Brkelly\Documents\GitHub\CSProject-EZReg\EZ_Regulatory3\EZ_Regulatory3\obj\Debug\EZ_Regulatory3.dll
 C:\Users\Brkelly\Documents\GitHub\CSProject-EZReg\EZ_Regulatory3\EZ_Regulatory3\obj\Debug\EZ_Regulatory3.pdb
+C:\Users\Diarmuid\Documents\GitHub\CSProject-EZReg\EZ_Regulatory3\EZ_Regulatory3\bin\EZ_Regulatory3.dll
+C:\Users\Diarmuid\Documents\GitHub\CSProject-EZReg\EZ_Regulatory3\EZ_Regulatory3\bin\EZ_Regulatory3.pdb
+C:\Users\Diarmuid\Documents\GitHub\CSProject-EZReg\EZ_Regulatory3\EZ_Regulatory3\bin\EntityFramework.dll
+C:\Users\Diarmuid\Documents\GitHub\CSProject-EZReg\EZ_Regulatory3\EZ_Regulatory3\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\Diarmuid\Documents\GitHub\CSProject-EZReg\EZ_Regulatory3\EZ_Regulatory3\bin\System.Web.Helpers.dll
+C:\Users\Diarmuid\Documents\GitHub\CSProject-EZReg\EZ_Regulatory3\EZ_Regulatory3\bin\System.Web.Mvc.dll
+C:\Users\Diarmuid\Documents\GitHub\CSProject-EZReg\EZ_Regulatory3\EZ_Regulatory3\bin\System.Web.Providers.dll
+C:\Users\Diarmuid\Documents\GitHub\CSProject-EZReg\EZ_Regulatory3\EZ_Regulatory3\bin\System.Web.Razor.dll
+C:\Users\Diarmuid\Documents\GitHub\CSProject-EZReg\EZ_Regulatory3\EZ_Regulatory3\bin\System.Web.WebPages.Deployment.dll
+C:\Users\Diarmuid\Documents\GitHub\CSProject-EZReg\EZ_Regulatory3\EZ_Regulatory3\bin\System.Web.WebPages.dll
+C:\Users\Diarmuid\Documents\GitHub\CSProject-EZReg\EZ_Regulatory3\EZ_Regulatory3\bin\System.Web.WebPages.Razor.dll
+C:\Users\Diarmuid\Documents\GitHub\CSProject-EZReg\EZ_Regulatory3\EZ_Regulatory3\bin\EntityFramework.xml
+C:\Users\Diarmuid\Documents\GitHub\CSProject-EZReg\EZ_Regulatory3\EZ_Regulatory3\bin\System.Web.Helpers.xml
+C:\Users\Diarmuid\Documents\GitHub\CSProject-EZReg\EZ_Regulatory3\EZ_Regulatory3\bin\System.Web.Mvc.xml
+C:\Users\Diarmuid\Documents\GitHub\CSProject-EZReg\EZ_Regulatory3\EZ_Regulatory3\bin\System.Web.Razor.xml
+C:\Users\Diarmuid\Documents\GitHub\CSProject-EZReg\EZ_Regulatory3\EZ_Regulatory3\bin\System.Web.WebPages.xml
+C:\Users\Diarmuid\Documents\GitHub\CSProject-EZReg\EZ_Regulatory3\EZ_Regulatory3\bin\System.Web.WebPages.Deployment.xml
+C:\Users\Diarmuid\Documents\GitHub\CSProject-EZReg\EZ_Regulatory3\EZ_Regulatory3\bin\System.Web.WebPages.Razor.xml
+C:\Users\Diarmuid\Documents\GitHub\CSProject-EZReg\EZ_Regulatory3\EZ_Regulatory3\obj\Debug\EZ_Regulatory3.dll
+C:\Users\Diarmuid\Documents\GitHub\CSProject-EZReg\EZ_Regulatory3\EZ_Regulatory3\obj\Debug\EZ_Regulatory3.pdb
 C:\Users\Diarmuid\Documents\GitHub\CSProject-EZReg\EZ_Regulatory3\EZ_Regulatory3\obj\Debug\EZ_Regulatory3.csprojResolveAssemblyReference.cache

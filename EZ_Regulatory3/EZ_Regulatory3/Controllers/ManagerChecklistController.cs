@@ -25,24 +25,19 @@ namespace EZ_Regulatory3.Controllers
             .Where(i => i.SurveyAnswers.Count() != 0)
                 .ToList();
             //List<Survey> surveys = db.Surveys.ToList();
-            //List<Survey> filteredList = new List<Survey>();
+            List<Survey> filteredList = new List<Survey>();
 
-            //foreach (Survey s in surveys)
-            //{
-            //    foreach (User u in users) 
-            //    {
-            //        foreach (SurveyAnswer sa in u.SurveyAnswers)
-            //        {
-            //            if (s.ID == sa.SurveyID)
-            //            {
-            //                filteredList.Add(s);
-            //           }
-            //        }
-            //    }
-            //    
-            //}
+            foreach (Survey s in surveys)
+            {
+                
+                if (s.DateStart.CompareTo(System.DateTime.Now) < 1)
+                {
+                    filteredList.Add(s);
+           
+                }
+            }
 
-            return View(surveys);
+            return View(filteredList);
         }
 
         //
@@ -124,7 +119,7 @@ namespace EZ_Regulatory3.Controllers
         // POST: /ManagerChecklist/Edit/5
 
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection formCollection, string[] questionAnswers, string[] questionComments, IList<bool> questionYesNo)
+        public ActionResult Edit(int id, string submit, FormCollection formCollection, string[] questionAnswers, string[] questionComments, IList<bool> questionYesNo)
         {
             //formCollection.
             SurveyAnswer surveyAnswer = db.SurveyAnswers.ToList()
@@ -132,6 +127,10 @@ namespace EZ_Regulatory3.Controllers
                 .Single();
 
             UpdateSurveyAnswers(surveyAnswer, questionAnswers, questionComments);
+
+            if (submit == "Submit")
+                surveyAnswer.Submitted = "Yes";
+
 
             db.Entry(surveyAnswer).State = EntityState.Modified;
             db.SaveChanges();
@@ -238,7 +237,7 @@ namespace EZ_Regulatory3.Controllers
                 dr[4] = ans.QuestionComment;
                 dt.Rows.Add(dr);
             }
-            return new CsvActionResult(dt) { FileDownloadName = "ExportedFileName.csv" };
+            return new CsvActionResult(dt) { FileDownloadName = survey.Title + "_" + user.Name + "_" + survey.Month + ".csv" };
         }
 
         protected override void Dispose(bool disposing)

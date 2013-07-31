@@ -18,6 +18,9 @@ namespace EZ_Regulatory3.Controllers
 
         public ViewResult Index()
         {
+            //User user = db.Users.ToList()
+            //    .Where(i => i.ID == userID)
+            //    .Single();
             return View(db.Users.ToList());
         }
 

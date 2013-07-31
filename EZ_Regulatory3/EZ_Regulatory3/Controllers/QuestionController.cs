@@ -65,6 +65,35 @@ namespace EZ_Regulatory3.Controllers
         public ActionResult Edit(int id)
         {
             Question question = db.Questions.Find(id);
+            List<SelectListItem> items = new List<SelectListItem>();
+
+            items.Add(new SelectListItem { Text = "Yes/No", Value = "Yes/No" });
+
+            if (question.Type == "Yes/No")
+                items.ElementAt(0).Selected = true;
+
+            ViewBag.Type = items;
+            return View(question);
+        }
+
+        //
+        // POST: /Question/Edit/5
+
+        [HttpPost]
+        public ActionResult Edit(Question question)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(question).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(question);
+        }
+
+        public ActionResult CreateNewQuestionFromThis(int id)
+        {
+            Question question = db.Questions.Find(id);
 
             List<SelectListItem> items = new List<SelectListItem>();
 
@@ -84,11 +113,12 @@ namespace EZ_Regulatory3.Controllers
         // POST: /Question/Edit/5
 
         [HttpPost]
-        public ActionResult Edit(Question question)
+        public ActionResult CreateNewQuestionFromThis(Question question)
         {
+            Question newQuestion = new Question { Title = question.Title, Type = question.Type, DateModified = System.DateTime.Now, CompliantAnswer = question.CompliantAnswer, Surveys = new List<Survey>() };
             if (ModelState.IsValid)
             {
-                db.Entry(question).State = EntityState.Modified;
+                db.Questions.Add(newQuestion);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

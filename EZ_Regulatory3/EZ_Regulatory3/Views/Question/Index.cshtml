@@ -41,9 +41,15 @@
             @Html.DisplayFor(modelItem => item.CompliantAnswer)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.QuestionID }) |
             @Html.ActionLink("Details", "Details", new { id=item.QuestionID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.QuestionID })
+            @Html.ActionLink("Create New Question From This", "CreateNewQuestionFromThis", new { id=item.QuestionID }) 
+            @if (item.Surveys.Count == 0)
+            {
+                @:|
+                @Html.ActionLink("Edit", "Edit", new { id=item.QuestionID }) 
+                @:|
+                @Html.ActionLink("Delete", "Delete", new { id=item.QuestionID }) 
+            }
         </td>
     </tr>
 }

@@ -4,8 +4,8 @@
     ViewBag.Title = "Reporting";
 }
 
-<h2>Monthly Reports</h2>
-<h3>@ViewBag.Message</h3>
+<h2>View This Months Checklists - @ViewBag.Message</h2>
+<h3></h3>
 <p>
     @Html.ActionLink("Current Month", "Index") |
     @Html.ActionLink("Unapproved", "ViewUnapproved") |
@@ -37,6 +37,9 @@
         <th>
             Date Added
         </th>
+        <th>
+            Export To CSV
+        </th>
     </tr>
 
 @foreach (var item in Model) { 
@@ -45,7 +48,7 @@
                 {
     <tr>
         <td>
-                        @Html.ActionLink(user.Name,  "Details", new { id=user.ID , surveyid = item.ID})
+                        @Html.ActionLink(user.Name, "Details/"+user.ID, "User")
         </td>
         <td>
                         @Html.ActionLink(item.Title,  "Details", new { id=user.ID , surveyid = item.ID})
@@ -67,6 +70,9 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.DateAdded)
+        </td>
+        <td>
+            @Html.ActionLink("Export", "CSV", new { userID=item.ID , surveyID = item.ID})
         </td>
     </tr>
 }

@@ -259,6 +259,8 @@
     <Content Include="Views\ManagerHome\Edit.cshtml" />
     <Content Include="Views\ManagerHome\Delete.cshtml" />
     <Content Include="Views\Report\Details.cshtml" />
+    <Content Include="Views\Survey\CreateFromThisChecklist.cshtml" />
+    <Content Include="Views\Question\CreateNewQuestionFromThis.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

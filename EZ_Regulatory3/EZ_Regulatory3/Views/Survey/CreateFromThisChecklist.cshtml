@@ -1,10 +1,10 @@
-﻿@model EZ_Regulatory3.Models.Question
+﻿@model EZ_Regulatory3.Models.Survey
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Create From Previous Checklist";
 }
 
-<h2>Edit</h2>
+<h2>Create</h2>
 
 <script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
 <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
@@ -12,9 +12,7 @@
 @using (Html.BeginForm()) {
     @Html.ValidationSummary(true)
     <fieldset>
-        <legend>Question</legend>
-
-        @Html.HiddenFor(model => model.QuestionID)
+        <legend>Checklist</legend>
 
         <div class="editor-label">
             @Html.LabelFor(model => model.Title)
@@ -25,25 +23,32 @@
         </div>
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.Type)
+            @Html.LabelFor(model => model.DateStart)
         </div>
         <div class="editor-field">
-            @Html.DropDownList("Type")
-            @Html.ValidationMessageFor(model => model.Type)
+            @Html.EditorFor(model => model.DateStart)
+            @Html.ValidationMessageFor(model => model.DateStart)
+            
         </div>
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.CompliantAnswer)
+            @Html.LabelFor(model => model.DateEnd)
         </div>
         <div class="editor-field">
-            @Html.RadioButtonFor(model =>model.CompliantAnswer,"Yes",true) Yes 
-            @Html.RadioButtonFor(model =>model.CompliantAnswer,"No",false) No            
-            @Html.ValidationMessageFor(model => model.CompliantAnswer)
-
+            @Html.EditorFor(model => model.DateEnd)
+            @Html.ValidationMessageFor(model => model.DateEnd)
         </div>
 
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Month)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownList("Month")
+            @Html.ValidationMessageFor(model => model.Month)
+        </div>
+        
         <p>
-            <input type="submit" value="Save" />
+            <input type="submit" value="Create" />
         </p>
     </fieldset>
 }

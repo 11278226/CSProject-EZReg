@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using EZ_Regulatory3.Models;
 using EZ_Regulatory3.DAL;
 using EZ_Regulatory3.ViewModels;
+using EZ_Regulatory3.CSV;
 
 namespace EZ_Regulatory3.Controllers
 {
@@ -84,6 +85,83 @@ namespace EZ_Regulatory3.Controllers
             PopulateAssignedQuestionData(survey);
             PopulateAssignedUserData(survey);
             
+            List<SelectListItem> items = new List<SelectListItem>();
+
+            items.Add(new SelectListItem { Text = "January", Value = "January" });
+            items.Add(new SelectListItem { Text = "February", Value = "February" });
+            items.Add(new SelectListItem { Text = "March", Value = "March" });
+            items.Add(new SelectListItem { Text = "April", Value = "April" });
+            items.Add(new SelectListItem { Text = "May", Value = "May" });
+            items.Add(new SelectListItem { Text = "June", Value = "June" });
+            items.Add(new SelectListItem { Text = "July", Value = "July" });
+            items.Add(new SelectListItem { Text = "August", Value = "August" });
+            items.Add(new SelectListItem { Text = "September", Value = "September" });
+            items.Add(new SelectListItem { Text = "October", Value = "October" });
+            items.Add(new SelectListItem { Text = "November", Value = "November" });
+            items.Add(new SelectListItem { Text = "December", Value = "December" });
+            if (survey.Month == "January")
+            {
+                items.ElementAt(0).Selected = true;
+            }
+            else if (survey.Month == "February")
+            {
+                items.ElementAt(1).Selected = true;
+            }
+            else if (survey.Month == "March")
+            {
+                items.ElementAt(2).Selected = true;
+            }
+            else if (survey.Month == "April")
+            {
+                items.ElementAt(3).Selected = true;
+            }
+            else if (survey.Month == "May")
+            {
+                items.ElementAt(4).Selected = true;
+            }
+            else if (survey.Month == "June")
+            {
+                items.ElementAt(5).Selected = true;
+            }
+            else if (survey.Month == "July")
+            {
+                items.ElementAt(6).Selected = true;
+            }
+            else if (survey.Month == "August")
+            {
+                items.ElementAt(7).Selected = true;
+            }
+            else if (survey.Month == "September")
+            {
+                items.ElementAt(8).Selected = true;
+            }
+            else if (survey.Month == "October")
+            {
+                items.ElementAt(9).Selected = true;
+            }
+            else if (survey.Month == "November")
+            {
+                items.ElementAt(10).Selected = true;
+            }
+            else if (survey.Month == "December")
+            {
+                items.ElementAt(11).Selected = true;
+            }
+            ViewBag.Month = items;
+
+            return View(survey);
+        }
+
+        //
+        // GET: /Survey/Edit/5
+
+        public ActionResult CreateFromThisChecklist(int id, string[] selectedQuestions, string[] selectedUsers)
+        {
+            Survey survey = db.Surveys
+                .Include(i => i.Questions)
+                .Where(i => i.ID == id)
+                .Single();
+
             List<SelectListItem> items = new List<SelectListItem>();
 
             items.Add(new SelectListItem { Text = "January", Value = "January" });
@@ -229,7 +307,7 @@ namespace EZ_Regulatory3.Controllers
         // POST: /Instructor/Edit/5
 
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection formCollection, string[] selectedQuestions, string[] selectedUsers)
+        public ActionResult Edit(int id, FormCollection formCollection, string [] selectedQuestions, string [] selectedUsers)
         {
             var surveyToUpdate = db.Surveys
                 .Include(i => i.Questions)
@@ -254,10 +332,24 @@ namespace EZ_Regulatory3.Controllers
                 }
             }
 
-
             PopulateAssignedQuestionData(surveyToUpdate);
             PopulateAssignedUserData(surveyToUpdate);
             return View(surveyToUpdate);
+        }
+
+        [HttpPost]
+        public ActionResult CreateFromThisChecklist(Survey survey)
+        {
+            Survey newSurvey = new Survey { Approved = survey.Approved, Title = survey.Title, DateStart = survey.DateStart, DateEnd = survey.DateEnd, Month = survey.Month, Questions = new List<Question>(), Users = new List<User>() };
+            if (ModelState.IsValid)
+            {
+                db.Surveys.Add(newSurvey);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+
+            return View(survey);
         }
 
         private void UpdateSurveyQuestionsAndUsers(string[] selectedQuestions, string[] selectedUsers, Survey surveyToUpdate)
@@ -517,5 +609,7 @@ namespace EZ_Regulatory3.Controllers
             PopulateActiveAssignedUserData(survey);
             return View(survey);
         }
+
+        
     }
 }
