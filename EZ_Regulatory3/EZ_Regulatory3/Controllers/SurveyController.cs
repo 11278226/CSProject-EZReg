@@ -340,7 +340,7 @@ namespace EZ_Regulatory3.Controllers
         [HttpPost]
         public ActionResult CreateFromThisChecklist(Survey survey)
         {
-            Survey newSurvey = new Survey { Approved = survey.Approved, Title = survey.Title, DateStart = survey.DateStart, DateEnd = survey.DateEnd, Month = survey.Month, Questions = new List<Question>(), Users = new List<User>() };
+            Survey newSurvey = new Survey { Title = survey.Title, DateStart = survey.DateStart, DateEnd = survey.DateEnd, Month = survey.Month, Questions = new List<Question>(), Users = new List<User>() };
             if (ModelState.IsValid)
             {
                 db.Surveys.Add(newSurvey);

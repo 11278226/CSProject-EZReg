@@ -53,7 +53,7 @@ namespace EZ_Regulatory3.Controllers
             ViewBag.UserName = user.Name;
             Survey survey = db.Surveys.Find(surveyid);
             ViewBag.Questions = survey.Questions.ToList();
-
+            int numberOfQuestions = survey.Questions.ToList().Count();
             return View(surveyanswer);
         }
 

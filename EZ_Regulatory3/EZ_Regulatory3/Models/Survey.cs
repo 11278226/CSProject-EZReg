@@ -9,7 +9,7 @@ namespace EZ_Regulatory3.Models
 {
     public class Survey
     {
-        public Survey() { Submitted = "No"; Approved = "No"; DateAdded = System.DateTime.Now; }
+        public Survey() { DateAdded = System.DateTime.Now; }
         public int ID { get; set; }
 
         [Required]
@@ -22,12 +22,6 @@ namespace EZ_Regulatory3.Models
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:d}")]
         public DateTime DateEnd { get; set; }
-
-        [Required]
-        public string Submitted { get; set; }
-
-        [Required]
-        public string Approved { get; set; }
 
         [Required]
         public string Month { get; set; }
