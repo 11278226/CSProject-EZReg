@@ -4,8 +4,7 @@
     ViewBag.Title = "Reporting";
 }
 <h2>@ViewBag.Message</h2>
-<h3>
-</h3>
+
 <p>
     @Html.ActionLink("Current Month", "Index") |
     @Html.ActionLink("Unapproved", "ViewUnapproved") |
@@ -43,39 +42,48 @@
     </tr>
 
 @foreach (var item in Model) { 
-    if(item.Approved.ToUpper() == "NO") {
         foreach(var user in item.Users)
                 {
-    <tr>
-        <td>
-                        @Html.ActionLink(user.Name, "Details/"+user.ID, "User")
-        </td>
-        <td>
-                        @Html.ActionLink(item.Title,  "Details", new { id=user.ID , surveyid = item.ID})
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DateStart)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DateEnd)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Month)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Submitted)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Approved)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DateAdded)
-        </td>
-         <td>
-            @Html.ActionLink("Export", "CSV", new { userID=item.ID , surveyID = item.ID})
-        </td>
-    </tr>
-}
-}
+                
+                    EZ_Regulatory3.Models.SurveyAnswer thisSurveyAnswer = null;
+                    IEnumerable<EZ_Regulatory3.Models.SurveyAnswer> surveyAnswers = ViewBag.SurveyAnswers;
+                        foreach(var surveyAnswer in surveyAnswers) {
+                            if (surveyAnswer.UserID == user.ID && surveyAnswer.SurveyID == item.ID) 
+                            {
+                                thisSurveyAnswer = surveyAnswer;
+                            }
+                        }
+                 if(thisSurveyAnswer.Approved.ToUpper() == "NO") {
+                <tr>
+                    <td>
+                                    @Html.ActionLink(user.Name, "Details/"+user.ID, "User")
+                    </td>
+                    <td>
+                                    @Html.ActionLink(item.Title,  "Details", new { id=user.ID , surveyid = item.ID})
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DateStart)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DateEnd)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Month)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => thisSurveyAnswer.Submitted)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => thisSurveyAnswer.Approved)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DateAdded)
+                    </td>
+                     <td>
+                        @Html.ActionLink("Export", "CSV", new { userID=item.ID , surveyID = item.ID})
+                    </td>
+                </tr>
+        }
+    }
 }
 </table>

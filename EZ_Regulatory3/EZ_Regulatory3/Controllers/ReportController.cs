@@ -40,6 +40,8 @@ namespace EZ_Regulatory3.Controllers
                 
             }
             ViewBag.currentMonth = dt.ToString("MMMM").ToUpper();
+            ViewBag.SurveyAnswers = db.SurveyAnswers.ToList();
+             
             return View(surveys);
         }
 
@@ -57,7 +59,7 @@ namespace EZ_Regulatory3.Controllers
                 
 
             }
-            
+            ViewBag.SurveyAnswers = db.SurveyAnswers.ToList();
             return View(surveys);
         }
 
@@ -70,12 +72,17 @@ namespace EZ_Regulatory3.Controllers
             {
                 foreach (User u in s.Users)
                 {
-                    if (s.Approved.ToUpper() == "NO")
+                    SurveyAnswer surveyanswer = db.SurveyAnswers.ToList()
+                    .Where(i => i.UserID == u.ID && i.SurveyID == s.ID)
+                    .Single();
+                    if (surveyanswer.Approved.ToUpper() == "NO")
                     {
                         filteredList.Add(s);
                     }
                 }
             }
+            ViewBag.SurveyAnswers = db.SurveyAnswers.ToList();
+
             return View(surveys);
         }
 
@@ -90,7 +97,24 @@ namespace EZ_Regulatory3.Controllers
             Survey survey = db.Surveys.Find(surveyid);
             ViewBag.Questions = survey.Questions.ToList();
 
+            
+
             return View(surveyanswer);
+        }
+
+        [HttpPost]
+        public ActionResult Details(int id, int surveyid, Survey survey)
+        {
+            SurveyAnswer surveyAnswer = db.SurveyAnswers.ToList()
+                .Where(i => i.UserID == id && i.SurveyID == surveyid)
+                .Single();
+            surveyAnswer.Approved = "Yes";
+
+            db.Entry(surveyAnswer).State = EntityState.Modified;
+            db.SaveChanges();
+
+
+            return RedirectToAction("Index");
         }
 
         public ActionResult CSV(int userID, int surveyID)

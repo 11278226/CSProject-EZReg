@@ -50,6 +50,15 @@
             //</tr>
                 foreach(var user in item.Users)
                 {
+                    EZ_Regulatory3.Models.SurveyAnswer thisSurveyAnswer = null;
+                    IEnumerable<EZ_Regulatory3.Models.SurveyAnswer> surveyAnswers = ViewBag.SurveyAnswers;
+                    foreach (var surveyAnswer in surveyAnswers)
+                    {
+                        if (surveyAnswer.UserID == user.ID && surveyAnswer.SurveyID == item.ID)
+                        {
+                            thisSurveyAnswer = surveyAnswer;
+                        }
+                    }
                   <tr> 
                       <td>
                         @Html.ActionLink(user.Name, "Details/"+user.ID, "User")
@@ -67,10 +76,10 @@
                         @Html.DisplayFor(modelItem => item.Month)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Submitted)
+                        @Html.DisplayFor(modelItem => thisSurveyAnswer.Submitted)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Approved)
+                        @Html.DisplayFor(modelItem => thisSurveyAnswer.Approved)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.DateAdded)

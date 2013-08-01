@@ -5,7 +5,7 @@
 }
 
 <h2>Details for @ViewBag.UserName</h2>
-
+@using (Html.BeginForm()) {
 <table> 
     <tr> 
         <th>Question ID</th> 
@@ -31,6 +31,13 @@
     </tr>
         }
     </table>
+        if (Model.Submitted == "Yes")
+        {
+            <p>
+                <input type="submit" value="Approve" />
+            </p>
+        }
+}
 <p>
     @Html.ActionLink("Back to List", "Index")
 </p>

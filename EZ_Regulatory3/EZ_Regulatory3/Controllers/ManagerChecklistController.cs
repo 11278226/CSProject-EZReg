@@ -119,7 +119,7 @@ namespace EZ_Regulatory3.Controllers
         // POST: /ManagerChecklist/Edit/5
 
         [HttpPost]
-        public ActionResult Edit(int id, string submit, FormCollection formCollection, string[] questionAnswers, string[] questionComments, IList<bool> questionYesNo)
+        public ActionResult Edit(int id, string inputButton, FormCollection formCollection, string[] questionAnswers, string[] questionComments)
         {
             //formCollection.
             SurveyAnswer surveyAnswer = db.SurveyAnswers.ToList()
@@ -128,7 +128,7 @@ namespace EZ_Regulatory3.Controllers
 
             UpdateSurveyAnswers(surveyAnswer, questionAnswers, questionComments);
 
-            if (submit == "Submit")
+            if (inputButton == "Submit")
                 surveyAnswer.Submitted = "Yes";
 
 
